@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StoreCashFlow.Api.DTO;
 using StoreCashFlow.Api.Service;
 using StoreCashFlow.Domain;
 namespace StoreCashFlow.Api.Controller;
@@ -14,36 +15,41 @@ public class CustomerController(CustomerService customerService) : ControllerBas
     /// Получить всех покупателей
     /// </summary>
     [HttpGet]
-    public ActionResult<IEnumerable<Customer>> GetCustomers()
+    public ActionResult<IEnumerable<Customer>> Get()
     {
-        return Ok(customerService.GetCustomers());
+        return Ok(customerService.GetAll());
     }
 
     /// <summary>
     /// Получить покупателя по идентификатору
     /// </summary>
     [HttpGet("{id}")]
-    public ActionResult<Customer> GetCustomer(int id)
+    public ActionResult<Customer> Get(int id)
     {
-        return Ok(customerService.GetCustomerById(id));
+        var customer = customerService.GetById(id);
+        if (customer == null)
+        {
+            return NotFound();
+        }
+        return Ok(customer);
     }
 
     /// <summary>
     /// Добавить покупателя
     /// </summary>
     [HttpPost]
-    public ActionResult<Customer> AddCustomer(Customer newCustomer)
+    public ActionResult<Customer> Post(CustomerCreateDTO newCustomer)
     {
-        return Ok(customerService.AddCustomer(newCustomer));
+        return Ok(customerService.Create(newCustomer));
     }
 
     /// <summary>
     /// Обновить покупателя
     /// </summary>
     [HttpPut]
-    public IActionResult UpdateCustomer(Customer customer)
+    public IActionResult Put(CustomerDTO customer)
     {
-        var result = customerService.UpdateCustomer(customer);
+        var result = customerService.Update(customer);
         if (!result)
         {
             return NotFound();
@@ -55,9 +61,9 @@ public class CustomerController(CustomerService customerService) : ControllerBas
     /// Удалить покупателя
     /// </summary>
     [HttpDelete("{id}")]
-    public IActionResult DeleteCustomer(int id)
+    public IActionResult Delete(int id)
     {
-        var result = customerService.DeleteCustomer(id);
+        var result = customerService.Delete(id);
         if (!result)
         {
             return NotFound();

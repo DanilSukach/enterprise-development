@@ -1,16 +1,16 @@
 ﻿namespace StoreCashFlow.Api.DTO;
 
 /// <summary>
-/// DTO для высоких продаж
+/// DTO для магазина
 /// </summary>
-public class HighSalesDto
+public class StoreDTO
 {
     /// <summary>
     /// Идентификатор магазина
     /// </summary>
     public int StoreId { get; set; }
     /// <summary>
-    /// Указанная сумма продаж
+    /// Местоположение магазина
     /// </summary>
-    public double TotalSales { get; set; }
+    public required string Location { get; set; }
 }

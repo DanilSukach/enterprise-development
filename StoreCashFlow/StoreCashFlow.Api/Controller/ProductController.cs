@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StoreCashFlow.Api.DTO;
 using StoreCashFlow.Api.Service;
 using StoreCashFlow.Domain;
 
@@ -15,36 +16,46 @@ public class ProductController(ProductService productService) : ControllerBase
     ///  Получить все товары
     /// </summary>
     [HttpGet]
-    public ActionResult<IEnumerable<Product>> GetProducts()
+    public ActionResult<IEnumerable<Product>> Get()
     {
-        return Ok(productService.GetProducts());
+        return Ok(productService.GetAll());
     }
 
     /// <summary>
     /// Добавить товар
     /// </summary>
     [HttpPost]
-    public ActionResult<Product> AddProduct(Product newProduct)
+    public ActionResult<Product> Post(ProductCreateDTO newProduct)
     {
-        return Ok(productService.AddProduct(newProduct));
+        var product = productService.Create(newProduct);
+        if (product == null)
+        {
+            return NotFound();
+        }
+        return Ok(product);
     }
 
     /// <summary>
     /// Получить товар по идентификатору
     /// </summary>
     [HttpGet("{id}")]
-    public ActionResult<Product> GetProduct(string id)
+    public ActionResult<Product> Get(string id)
     {
-        return Ok(productService.GetProductById(id));
+        var product = productService.GetById(id);
+        if (product == null)
+        {
+            return NotFound();
+        }
+        return Ok(product);
     }
 
     /// <summary>
     /// Изменить товар
     /// </summary>
     [HttpPut]
-    public IActionResult UpdateProduct(Product product)
+    public IActionResult Put(ProductDTO product)
     {
-        var result = productService.UpdateProduct(product);
+        var result = productService.Update(product);
         if (!result)
         {
             return NotFound();
@@ -56,9 +67,9 @@ public class ProductController(ProductService productService) : ControllerBase
     /// Удалить товар
     /// </summary>
     [HttpDelete("{id}")]
-    public IActionResult DeleteProduct(string id)
+    public IActionResult Delete(string id)
     {
-        var result = productService.DeleteProduct(id);
+        var result = productService.Delete(id);
         if (!result)
         {
             return NotFound();

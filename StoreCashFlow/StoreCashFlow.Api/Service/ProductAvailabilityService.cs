@@ -1,46 +1,62 @@
 ﻿using StoreCashFlow.Domain;
+using StoreCashFlow.Api.DTO;
 namespace StoreCashFlow.Api.Service;
 
-public class ProductAvailabilityService
+public class ProductAvailabilityService(StoreService storeService, ProductService productService) : IEntityService<ProductAvailability, int, ProductAvailabilityCreateDTO, ProductAvailabilityDTO>
 {
     private List<ProductAvailability> _productAvailabilities = [];
     private int _productAvailabilityId = 1;
-    public ProductAvailability AddProductAvailability(ProductAvailability newProductAvailability)
-    {
-        newProductAvailability.Id = _productAvailabilityId++;
+    public ProductAvailability? Create(ProductAvailabilityCreateDTO newProductAvailabilityDTO)
+    {   
+        var store = storeService.GetById(newProductAvailabilityDTO.StoreId);
+        var product = productService.GetById(newProductAvailabilityDTO.ProductId);
+        if (store == null || product == null)
+        {
+            return null;
+        }
+        var newProductAvailability = new ProductAvailability
+        {
+            Id = _productAvailabilityId++,
+            Store = store,
+            Product = product,
+            Quantity = newProductAvailabilityDTO.Quantity
+        };
         _productAvailabilities.Add(newProductAvailability);
         return newProductAvailability;
     }
 
-    public List<ProductAvailability> GetProductAvailabilities()
+    public List<ProductAvailability> GetAll() => _productAvailabilities;
+
+    public ProductAvailability? GetById(int id)
     {
-        return _productAvailabilities;
-    }
-    public ProductAvailability? GetProductAvailabilityById(int id)
-    {
-        return _productAvailabilities.First(c => c.Id == id);
+        return _productAvailabilities.FirstOrDefault(c => c.Id == id);
     }
 
-    public bool DeleteProductAvailability(int id)
+    public bool Delete(int id)
     {
-        var productAvailability = GetProductAvailabilityById(id);
+        var productAvailability = GetById(id);
         if (productAvailability == null)
         {
             return false;
         }
-        _productAvailabilities.Remove(productAvailability);
-        return true;
+        return _productAvailabilities.Remove(productAvailability);
     }
 
-    public bool UpdateProductAvailability(ProductAvailability updateProductAvailability)
+    public bool Update(ProductAvailabilityDTO updateProductAvailability)
     {
-        var productAvailability = GetProductAvailabilityById(updateProductAvailability.Id);
+        var productAvailability = GetById(updateProductAvailability.Id);
         if (productAvailability == null)
         {
             return false;
         }
-        productAvailability.Store = updateProductAvailability.Store;
-        productAvailability.Product = updateProductAvailability.Product;
+        var store = storeService.GetById(updateProductAvailability.StoreId);
+        var product = productService.GetById(updateProductAvailability.ProductId);
+        if (store == null || product == null)
+        {
+            return false;
+        }
+        productAvailability.Store = store;
+        productAvailability.Product = product;
         productAvailability.Quantity = updateProductAvailability.Quantity;
         return true;
     }

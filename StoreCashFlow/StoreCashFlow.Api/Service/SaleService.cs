@@ -1,29 +1,44 @@
-﻿using StoreCashFlow.Domain;
+﻿using StoreCashFlow.Api.DTO;
+using StoreCashFlow.Domain;
+
 namespace StoreCashFlow.Api.Service;
 
-public class SaleService
+public class SaleService(ProductService productService, StoreService storeService, CustomerService customerService) : IEntityService<Sale, int, SaleCreateDTO, SaleDTO>
 {
     private List<Sale> _sales = [];
     private int _saleId = 1;
-    public Sale AddSale(Sale newSale)
+    public Sale? Create(SaleCreateDTO newSaleDTO)
     {
-        newSale.SaleId = _saleId++;
+        var product = productService.GetById(newSaleDTO.ProductId);
+        var store = storeService.GetById(newSaleDTO.StoreId);
+        var customer = customerService.GetById(newSaleDTO.CustomerId);
+        if (product == null || store == null || customer == null)
+        {
+            return null;
+        }
+        var newSale = new Sale
+        {
+            SaleId = _saleId++,
+            SaleDate = newSaleDTO.SaleDate,
+            Product = product,
+            Quantity = newSaleDTO.Quantity,
+            Store = store,
+            Customer = customer
+        };
         _sales.Add(newSale);
         return newSale;
     }
 
-    public List<Sale> GetSales()
+    public List<Sale> GetAll() => _sales;
+
+    public Sale? GetById(int id)
     {
-        return _sales;
-    }
-    public Sale? GetSaleById(int id)
-    {
-        return _sales.First(c => c.SaleId == id);
+        return _sales.FirstOrDefault(c => c.SaleId == id);
     }
 
-    public bool DeleteSale(int id)
+    public bool Delete(int id)
     {
-        var sale = GetSaleById(id);
+        var sale = GetById(id);
         if (sale == null)
         {
             return false;
@@ -32,18 +47,25 @@ public class SaleService
         return true;
     }
 
-    public bool UpdateSale(Sale updateSale)
+    public bool Update(SaleDTO updateSale)
     {
-        var sale = GetSaleById(updateSale.SaleId);
+        var sale = GetById(updateSale.SaleId);
         if (sale == null)
         {
             return false;
         }
+        var product = productService.GetById(updateSale.ProductId);
+        var store = storeService.GetById(updateSale.StoreId);
+        var customer = customerService.GetById(updateSale.CustomerId);
+        if (product == null || store == null || customer == null)
+        {
+            return false;
+        }
         sale.SaleDate = updateSale.SaleDate;
-        sale.Product = updateSale.Product;
+        sale.Product = product;
         sale.Quantity = updateSale.Quantity;
-        sale.Store = updateSale.Store;
-        sale.Customer = updateSale.Customer;
+        sale.Store = store;
+        sale.Customer = customer;
         return true;
     }
 }

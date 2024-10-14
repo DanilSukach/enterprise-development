@@ -6,26 +6,21 @@ public class RequestService(ProductAvailabilityService productAvailabilityServic
 {
     public List<Product> ReturnAllProductsInStore(int id)
     {
-        return (
-            productAvailabilityService.GetProductAvailabilities()
+        return productAvailabilityService.GetAll()
             .Where(pa => pa.Store.StoreId == id)
             .Select(pa => pa.Product)
-            .ToList()
-        );
+            .ToList();
     }
     public List<Store> ReturnStoresWithProductInStock(string barcode)
     {
-        return (
-            productAvailabilityService.GetProductAvailabilities()
+        return productAvailabilityService.GetAll()
             .Where(pa => pa.Product.Barcode == barcode)
             .Select(pa => pa.Store)
-            .ToList()
-        );
+            .ToList();
     }
     public List<ProductPriceInfoDto> ReturnAveragePriceByGroupAndStore()
     {
-        return (
-            productAvailabilityService.GetProductAvailabilities()
+        return productAvailabilityService.GetAll()
             .GroupBy(pa => new { pa.Store.StoreId, pa.Product.ProductGroupCode })
             .Select(group => new ProductPriceInfoDto
             {
@@ -33,13 +28,11 @@ public class RequestService(ProductAvailabilityService productAvailabilityServic
                 ProductGroupCode = group.Key.ProductGroupCode,
                 AvgPrice = group.Average(pa => pa.Product.Price)
             })
-            .ToList()
-        );
+            .ToList();
     }
     public List<SaleInfoDto> ReturnTop5SalesByTotalAmount()
     {
-        return (
-            saleService.GetSales()
+        return saleService.GetAll()
             .GroupBy(s => s.Product.ProductGroupCode)
             .Select(group => new SaleInfoDto
             {
@@ -48,26 +41,22 @@ public class RequestService(ProductAvailabilityService productAvailabilityServic
             })
             .OrderByDescending(g => g.TotalAmount)
             .Take(5)
-            .ToList()
-        );
+            .ToList();
     }
     public List<ExpiredProductInfoDto> ReturnExpiredProducts(DateTime expirationDate)
     {
-        return (
-            productAvailabilityService.GetProductAvailabilities()
+        return productAvailabilityService.GetAll()
             .Where(pa => pa.Product.ExpirationDate < expirationDate)
             .Select(pa => new ExpiredProductInfoDto
             {
                 Product = pa.Product,
                 Store = pa.Store
             })
-            .ToList()
-        );
+            .ToList();
     }
     public List<HighSalesDto> GetStoresWithHighSales(DateTime monthStart, DateTime monthEnd, double threshold)
     {
-        return (
-            saleService.GetSales()
+        return saleService.GetAll()
             .Where(s => s.SaleDate >= monthStart && s.SaleDate <= monthEnd)
             .GroupBy(s => s.Store.StoreId)
             .Select(group => new HighSalesDto
@@ -76,7 +65,6 @@ public class RequestService(ProductAvailabilityService productAvailabilityServic
                 TotalSales = Math.Round(group.Sum(s => s.Quantity * s.Product.Price), 2)
             })
             .Where(result => result.TotalSales > threshold)
-            .ToList()
-        );
+            .ToList();
     }
 }

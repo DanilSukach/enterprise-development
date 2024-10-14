@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StoreCashFlow.Api.DTO;
 using StoreCashFlow.Api.Service;
 using StoreCashFlow.Domain;
 namespace StoreCashFlow.Api.Controller;
@@ -14,36 +15,46 @@ public class SaleController(SaleService saleService) : ControllerBase
     /// Получить все продажи
     /// </summary>
     [HttpGet]
-    public ActionResult<IEnumerable<Sale>> GetSales()
+    public ActionResult<IEnumerable<Sale>> Get()
     {
-        return Ok(saleService.GetSales());
+        return Ok(saleService.GetAll());
     }
 
     /// <summary>
     /// Получить продажу по идентификатору
     /// </summary>
     [HttpGet("{id}")]
-    public ActionResult<Sale> GetSale(int id)
+    public ActionResult<Sale> Get(int id)
     {
-        return Ok(saleService.GetSaleById(id));
+        var sale = saleService.GetById(id);
+        if (sale == null)
+        {
+            return NotFound();
+        }
+        return Ok(sale);
     }
 
     /// <summary>
     /// Добавить продажу
     /// </summary>
     [HttpPost]
-    public ActionResult<Sale> AddSale(Sale newSale)
+    public ActionResult<Sale> Post(SaleCreateDTO newSaleDTO)
     {
-        return Ok(saleService.AddSale(newSale));
+        var newSale = saleService.Create(newSaleDTO);
+        if (newSale == null)
+        {
+            return NotFound();
+        }
+        return Ok(newSale);
     }
 
     /// <summary>
     /// Изменить продажу
     /// </summary>
     [HttpPut]
-    public IActionResult UpdateSale(Sale sale)
+    public IActionResult Put(SaleDTO sale)
     {
-        var result = saleService.UpdateSale(sale);
+        var result = saleService.Update(sale);
         if (!result)
         {
             return NotFound();
@@ -55,9 +66,9 @@ public class SaleController(SaleService saleService) : ControllerBase
     /// Удалить продажу
     /// </summary>
     [HttpDelete("{id}")]
-    public IActionResult DeleteSale(int id)
+    public IActionResult Delete(int id)
     {
-        var result = saleService.DeleteSale(id);
+        var result = saleService.Delete(id);
         if (!result)
         {
             return NotFound();

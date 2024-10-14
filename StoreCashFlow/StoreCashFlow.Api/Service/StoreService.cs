@@ -1,40 +1,42 @@
 ﻿using StoreCashFlow.Domain;
+using StoreCashFlow.Api.DTO;
 namespace StoreCashFlow.Api.Service;
 
-public class StoreService
+public class StoreService : IEntityService<Store, int, StoreCreateDTO, StoreDTO>
 {
     private List<Store> _stores = [];
     private int _storeId = 1;
-    public Store AddStore(Store newStore)
-    {
-        newStore.StoreId = _storeId++;
+    public Store Create(StoreCreateDTO newStoreDTO)
+    {   
+        var newStore = new Store
+        {
+            StoreId = _storeId++,
+            Location = newStoreDTO.Location
+        };
         _stores.Add(newStore);
         return newStore;
     }
 
-    public List<Store> GetStores()
+    public List<Store> GetAll() => _stores;
+
+    public Store? GetById(int id)
     {
-        return _stores;
-    }
-    public Store? GetStoreById(int id)
-    {
-        return _stores.First(c => c.StoreId == id);
+        return _stores.FirstOrDefault(c => c.StoreId == id);
     }
 
-    public bool DeleteStore(int id)
+    public bool Delete(int id)
     {
-        var store = GetStoreById(id);
+        var store = GetById(id);
         if (store == null)
         {
             return false;
         }
-        _stores.Remove(store);
-        return true;
+        return _stores.Remove(store);
     }
 
-    public bool UpdateStore(Store updateStore)
+    public bool Update(StoreDTO updateStore)
     {
-        var store = GetStoreById(updateStore.StoreId);
+        var store = GetById(updateStore.StoreId);
         if (store == null)
         {
             return false;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StoreCashFlow.Domain;
+using StoreCashFlow.Api.DTO;
 using StoreCashFlow.Api.Service;
+using StoreCashFlow.Domain;
 
 namespace StoreCashFlow.Api.Controller;
 
@@ -15,36 +16,41 @@ public class ProductTypeController(ProductTypeService productTypeService) : Cont
     /// Получить все типы товаров
     /// </summary>
     [HttpGet]
-    public ActionResult<IEnumerable<ProductType>> GetProductTypes()
+    public ActionResult<IEnumerable<ProductType>> Get()
     {
-        return Ok(productTypeService.GetProductTypes());
+        return Ok(productTypeService.GetAll());
     }
 
     /// <summary>
     /// Получить тип товара по идентификатору
     /// </summary>
     [HttpGet("{id}")]
-    public ActionResult<ProductType> GetProductType(int id)
+    public ActionResult<ProductType> Get(int id)
     {
-        return Ok(productTypeService.GetProductTypeById(id));
+        var productType = productTypeService.GetById(id);
+        if (productType == null)
+        {
+            return NotFound();
+        }
+        return Ok(productType);
     }
 
     /// <summary>
     /// Добавить тип товара
     /// </summary>
     [HttpPost]
-    public ActionResult<ProductType> AddProductType(ProductType newProductType)
+    public ActionResult<ProductType> Post(ProductTypeCreateDTO newProductType)
     {
-        return Ok(productTypeService.AddProductType(newProductType));
+        return Ok(productTypeService.Create(newProductType));
     }
 
     /// <summary>
     /// Изменить тип товара
     /// </summary>
     [HttpPut]
-    public IActionResult UpdateProductType(ProductType productType)
+    public IActionResult Put(ProductTypeDTO productType)
     {
-        var result = productTypeService.UpdateProductType(productType);
+        var result = productTypeService.Update(productType);
         if (!result)
         {
             return NotFound();
@@ -56,9 +62,9 @@ public class ProductTypeController(ProductTypeService productTypeService) : Cont
     /// Удалить тип товара
     /// </summary>
     [HttpDelete("{id}")]
-    public IActionResult DeleteProductType(int id)
+    public IActionResult Delete(int id)
     {
-        var result = productTypeService.DeleteProductType(id);
+        var result = productTypeService.Delete(id);
         if (!result)
         {
             return NotFound();

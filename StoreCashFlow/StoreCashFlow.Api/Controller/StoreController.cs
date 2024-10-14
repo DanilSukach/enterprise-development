@@ -1,6 +1,7 @@
-﻿using StoreCashFlow.Domain;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using StoreCashFlow.Api.DTO;
 using StoreCashFlow.Api.Service;
+using StoreCashFlow.Domain;
 
 namespace StoreCashFlow.Api.Controller;
 
@@ -15,36 +16,41 @@ public class StoreController(StoreService storeService) : ControllerBase
     /// Получить все магазины
     /// </summary>
     [HttpGet]
-    public ActionResult<IEnumerable<Store>> GetStores()
+    public ActionResult<IEnumerable<Store>> Get()
     {
-        return Ok(storeService.GetStores());
+        return Ok(storeService.GetAll());
     }
 
     /// <summary>
     /// Получить магазин по идентификатору
     /// </summary>
     [HttpGet("{id}")]
-    public ActionResult<Store> GetStore(int id)
+    public ActionResult<Store> Get(int id)
     {
-        return Ok(storeService.GetStoreById(id));
+        var store = storeService.GetById(id);
+        if (store == null)
+        {
+            return NotFound();
+        }
+        return Ok(store);
     }
 
     /// <summary>
     /// Добавить магазин
     /// </summary>
     [HttpPost]
-    public ActionResult<Store> AddStore(Store newStore)
+    public ActionResult<Store> Post(StoreCreateDTO newStoreDTO)
     {
-        return Ok(storeService.AddStore(newStore));
+        return Ok(storeService.Create(newStoreDTO));
     }
 
     /// <summary>
     /// Изменить магазин
     /// </summary>
     [HttpPut]
-    public IActionResult UpdateStore(Store store)
+    public IActionResult Put(StoreDTO store)
     {
-        var result = storeService.UpdateStore(store);
+        var result = storeService.Update(store);
         if (!result)
         {
             return NotFound();
@@ -56,9 +62,9 @@ public class StoreController(StoreService storeService) : ControllerBase
     /// Удалить магазин
     /// </summary>
     [HttpDelete("{id}")]
-    public IActionResult DeleteStore(int id)
+    public IActionResult Delete(int id)
     {
-        var result = storeService.DeleteStore(id);
+        var result = storeService.Delete(id);
         if (!result)
         {
             return NotFound();

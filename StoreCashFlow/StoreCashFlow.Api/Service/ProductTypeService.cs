@@ -1,29 +1,32 @@
 ﻿using StoreCashFlow.Domain;
+using StoreCashFlow.Api.DTO;
 namespace StoreCashFlow.Api.Service;
 
-public class ProductTypeService
+public class ProductTypeService : IEntityService<ProductType, int, ProductTypeCreateDTO, ProductTypeDTO>
 {
     private List<ProductType> _productTypes = [];
     private int _productTypeId = 1;
-    public ProductType AddProductType(ProductType newProductType)
+    public ProductType Create(ProductTypeCreateDTO newProductTypeDTO)
     {
-        newProductType.Id = _productTypeId++;
+        var newProductType = new ProductType
+        {
+            Id = _productTypeId++,
+            Name = newProductTypeDTO.Name
+        };
         _productTypes.Add(newProductType);
         return newProductType;
     }
 
-    public List<ProductType> GetProductTypes()
+    public List<ProductType> GetAll() => _productTypes;
+
+    public ProductType? GetById(int id)
     {
-        return _productTypes;
-    }
-    public ProductType? GetProductTypeById(int id)
-    {
-        return _productTypes.First(c => c.Id == id);
+        return _productTypes.FirstOrDefault(c => c.Id == id);
     }
 
-    public bool DeleteProductType(int id)
+    public bool Delete(int id)
     {
-        var productType = GetProductTypeById(id);
+        var productType = GetById(id);
         if (productType == null)
         {
             return false;
@@ -32,9 +35,9 @@ public class ProductTypeService
         return true;
     }
 
-    public bool UpdateProductType(ProductType updateProductType)
+    public bool Update(ProductTypeDTO updateProductType)
     {
-        var productType = GetProductTypeById(updateProductType.Id);
+        var productType = GetById(updateProductType.Id);
         if (productType == null)
         {
             return false;

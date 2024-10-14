@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StoreCashFlow.Api.DTO;
 using StoreCashFlow.Api.Service;
 using StoreCashFlow.Domain;
 
@@ -15,36 +16,46 @@ public class ProductAvailabilityController(ProductAvailabilityService availabili
     /// Получить все доступные товаров
     /// </summary>
     [HttpGet]
-    public ActionResult<IEnumerable<ProductAvailability>> GetProductAvailabilities()
+    public ActionResult<IEnumerable<ProductAvailability>> Get()
     {
-        return Ok(availabilityService.GetProductAvailabilities());
+        return Ok(availabilityService.GetAll());
     }
 
     /// <summary>
     /// Получить доступность товара по идентификатору
     /// </summary>
     [HttpGet("{id}")]
-    public ActionResult<ProductAvailability> GetProductAvailability(int id)
+    public ActionResult<ProductAvailability> Get(int id)
     {
-        return Ok(availabilityService.GetProductAvailabilityById(id));
+        var productAvailability = availabilityService.GetById(id);
+        if (productAvailability == null)
+        {
+            return NotFound();
+        }
+        return Ok(productAvailability);
     }
 
     /// <summary>
     /// Добавить доступность товара
     /// </summary>
     [HttpPost]
-    public ActionResult<ProductAvailability> AddProductAvailability(ProductAvailability newProductAvailability)
+    public ActionResult<ProductAvailability> Post(ProductAvailabilityCreateDTO newProductAvailability)
     {
-        return Ok(availabilityService.AddProductAvailability(newProductAvailability));
+        var productAvailability = availabilityService.Create(newProductAvailability);
+        if (productAvailability == null)
+        {
+            return NotFound();
+        }
+        return Ok(productAvailability);
     }
 
     /// <summary>
     /// Изменить доступность товара
     /// </summary>
     [HttpPut]
-    public IActionResult UpdateProductAvailability(ProductAvailability productAvailability)
+    public IActionResult Put(ProductAvailabilityDTO productAvailability)
     {
-        var result = availabilityService.UpdateProductAvailability(productAvailability);
+        var result = availabilityService.Update(productAvailability);
         if (!result)
         {
             return NotFound();
@@ -56,9 +67,9 @@ public class ProductAvailabilityController(ProductAvailabilityService availabili
     /// Изменить доступность товара
     /// </summary>
     [HttpDelete]
-    public IActionResult DeleteProductAvailability(int id)
+    public IActionResult Delete(int id)
     {
-        var result = availabilityService.DeleteProductAvailability(id);
+        var result = availabilityService.Delete(id);
         if (!result)
         {
             return NotFound();

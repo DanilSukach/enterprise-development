@@ -1,41 +1,46 @@
 ﻿using StoreCashFlow.Domain;
+using StoreCashFlow.Api.DTO;
 
 namespace StoreCashFlow.Api.Service;
 
-public class CustomerService()
+public class CustomerService() : IEntityService<Customer, int, CustomerCreateDTO, CustomerDTO>
 {
     private List<Customer> _customers = [];
     private int _customerId = 1;
-    public Customer AddCustomer(Customer newCustomer)
+    public Customer Create(CustomerCreateDTO newCustomerDTO)
     {
-        newCustomer.CustomerId = _customerId++;
+        var newCustomer = new Customer
+        {
+            CustomerId = _customerId++,
+            CardNumber = newCustomerDTO.CardNumber,
+            LastName = newCustomerDTO.LastName,
+            FirstName = newCustomerDTO.FirstName,
+            Potronimic = newCustomerDTO.Potronimic
+        };
         _customers.Add(newCustomer);
         return newCustomer;
     }
 
-    public List<Customer> GetCustomers()
+    public List<Customer> GetAll() => _customers;
+
+    public Customer? GetById(int id)
     {
-        return _customers;
-    }
-    public Customer? GetCustomerById(int id)
-    {
-        return _customers.First(c => c.CustomerId == id);
+        return _customers.FirstOrDefault(c => c.CustomerId == id);
     }
 
-    public bool DeleteCustomer(int id)
+    public bool Delete(int id)
     {
-        var customer = GetCustomerById(id);
+        var customer = GetById(id);
         if (customer == null)
         {
             return false;
         }
-        _customers.Remove(customer);
-        return true;
+        return _customers.Remove(customer);
     }
 
-    public bool UpdateCustomer(Customer updateCustomer)
+    public bool Update(CustomerDTO updateCustomer)
     {
-        var customer = GetCustomerById(updateCustomer.CustomerId);
+        var customer = GetById(updateCustomer.CustomerId);
         if (customer == null)
         {
             return false;

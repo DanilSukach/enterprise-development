@@ -1,47 +1,65 @@
 ﻿using StoreCashFlow.Domain;
+using StoreCashFlow.Api.DTO;
 
 namespace StoreCashFlow.Api.Service;
 
-public class ProductService
+public class ProductService (ProductTypeService productTypeService) : IEntityService<Product, string, ProductCreateDTO, ProductDTO>
 {
     private List<Product> _products = [];
-    public Product AddProduct(Product newProduct)
+    public Product? Create(ProductCreateDTO newProductDTO)
     {
+        var productType = productTypeService.GetById(newProductDTO.ProductTypeId);
+        if (productType == null)
+        {
+            return null;
+        }
+        var newProduct = new Product
+        {
+            Barcode = newProductDTO.Barcode,
+            Name = newProductDTO.Name,
+            Price = newProductDTO.Price,
+            ProductGroupCode = newProductDTO.ProductGroupCode,
+            ProductType = productType,
+            Weight = newProductDTO.Weight,
+            ExpirationDate = newProductDTO.ExpirationDate
+        };
         _products.Add(newProduct);
         return newProduct;
     }
 
-    public List<Product> GetProducts()
+    public List<Product> GetAll() => _products;
+
+    public Product? GetById(string id)
     {
-        return _products;
-    }
-    public Product? GetProductById(string id)
-    {
-        return _products.First(c => c.Barcode == id);
+        return _products.FirstOrDefault(c => c.Barcode == id);
     }
 
-    public bool DeleteProduct(string id)
+    public bool Delete(string id)
     {
-        var product = GetProductById(id);
+        var product = GetById(id);
         if (product == null)
         {
             return false;
         }
-        _products.Remove(product);
-        return true;
+        return _products.Remove(product);
     }
 
-    public bool UpdateProduct(Product updateProduct)
+    public bool Update(ProductDTO updateProduct)
     {
-        var product = GetProductById(updateProduct.Barcode);
+        var product = GetById(updateProduct.Barcode);
         if (product == null)
+        {
+            return false;
+        }
+        var productType = productTypeService.GetById(updateProduct.ProductTypeId);
+        if (productType == null)
         {
             return false;
         }
         product.Name = updateProduct.Name;
         product.Price = updateProduct.Price;
         product.ProductGroupCode = updateProduct.ProductGroupCode;
-        product.ProductType = updateProduct.ProductType;
+        product.ProductType = productType;
         product.Weight = updateProduct.Weight;
         product.ExpirationDate = updateProduct.ExpirationDate;
         return true;
