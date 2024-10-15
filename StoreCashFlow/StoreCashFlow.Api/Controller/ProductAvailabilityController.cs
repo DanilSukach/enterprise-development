@@ -13,8 +13,9 @@ namespace StoreCashFlow.Api.Controller;
 public class ProductAvailabilityController(ProductAvailabilityService availabilityService) : ControllerBase
 {
     /// <summary>
-    /// Получить все доступные товаров
+    /// Получить все доступные товары
     /// </summary>
+    /// <returns>Список товаров</returns>
     [HttpGet]
     public ActionResult<IEnumerable<ProductAvailability>> Get()
     {
@@ -24,6 +25,10 @@ public class ProductAvailabilityController(ProductAvailabilityService availabili
     /// <summary>
     /// Получить доступность товара по идентификатору
     /// </summary>
+    /// <param name="id">Идентификатор доступности товара</param>
+    /// <returns>Доступность товара</returns>
+    /// <response code="200">Доступность товара</response>
+    /// <response code="404">Доступность товара не найдена</response>
     [HttpGet("{id}")]
     public ActionResult<ProductAvailability> Get(int id)
     {
@@ -38,6 +43,10 @@ public class ProductAvailabilityController(ProductAvailabilityService availabili
     /// <summary>
     /// Добавить доступность товара
     /// </summary>
+    /// <param name="newProductAvailability">Данные для добавления</param>
+    /// <returns>Добавленная доступность товара</returns>
+    /// <response code="200">Данные успешно обновлены</response>
+    /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpPost]
     public ActionResult<ProductAvailability> Post(ProductAvailabilityCreateDTO newProductAvailability)
     {
@@ -52,6 +61,10 @@ public class ProductAvailabilityController(ProductAvailabilityService availabili
     /// <summary>
     /// Изменить доступность товара
     /// </summary>
+    /// <param name="productAvailability">Данные для изменения</param>
+    /// <returns>Результат операции</returns>
+    /// <response code="200">Данные успешно обновлены</response>
+    /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpPut]
     public IActionResult Put(ProductAvailabilityDTO productAvailability)
     {
@@ -64,8 +77,12 @@ public class ProductAvailabilityController(ProductAvailabilityService availabili
     }
 
     /// <summary>
-    /// Изменить доступность товара
+    /// Удалить доступность товара
     /// </summary>
+    /// <param name="id">Идентификатор доступности товара</param>
+    /// <returns>Результат операции</returns>
+    /// <response code="200">Данные успешно удалены</response>
+    /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpDelete]
     public IActionResult Delete(int id)
     {

@@ -15,6 +15,7 @@ public class ProductController(ProductService productService) : ControllerBase
     /// <summary>
     ///  Получить все товары
     /// </summary>
+    /// <returns>Список товаров</returns>
     [HttpGet]
     public ActionResult<IEnumerable<Product>> Get()
     {
@@ -24,6 +25,10 @@ public class ProductController(ProductService productService) : ControllerBase
     /// <summary>
     /// Добавить товар
     /// </summary>
+    /// <param name="newProduct">Новый товар</param>
+    /// <returns>Добавленный товар</returns>
+    /// <response code="200">Товар</response>
+    /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpPost]
     public ActionResult<Product> Post(ProductCreateDTO newProduct)
     {
@@ -38,6 +43,10 @@ public class ProductController(ProductService productService) : ControllerBase
     /// <summary>
     /// Получить товар по идентификатору
     /// </summary>
+    /// <param name="id">Идентификатор товара</param>
+    /// <returns>Возвращает товар</returns>
+    /// <response code="200">Товар</response>
+    /// <response code="404">Товар не найден</response>
     [HttpGet("{id}")]
     public ActionResult<Product> Get(string id)
     {
@@ -52,6 +61,10 @@ public class ProductController(ProductService productService) : ControllerBase
     /// <summary>
     /// Изменить товар
     /// </summary>
+    /// <param name="product">Данные для изменения</param>
+    /// <returns>Результат операции</returns>
+    /// <response code="200">Данные успешно обновлены</response>
+    /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpPut]
     public IActionResult Put(ProductDTO product)
     {
@@ -66,6 +79,10 @@ public class ProductController(ProductService productService) : ControllerBase
     /// <summary>
     /// Удалить товар
     /// </summary>
+    /// <param name="id">Идентификатор товара</param>
+    /// <returns>Результат операции</returns>
+    /// <response code="200">Данные успешно удалены</response>
+    /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpDelete("{id}")]
     public IActionResult Delete(string id)
     {

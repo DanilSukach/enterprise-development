@@ -14,6 +14,7 @@ public class SaleController(SaleService saleService) : ControllerBase
     /// <summary>
     /// Получить все продажи
     /// </summary>
+    /// <returns>Список продаж</returns>
     [HttpGet]
     public ActionResult<IEnumerable<Sale>> Get()
     {
@@ -23,6 +24,10 @@ public class SaleController(SaleService saleService) : ControllerBase
     /// <summary>
     /// Получить продажу по идентификатору
     /// </summary>
+    /// <param name="id">Идентификатор продажи</param>
+    /// <returns>Продажа</returns>
+    /// <response code="200">Продажа</response>
+    /// <response code="404">Продажа не найдена</response>
     [HttpGet("{id}")]
     public ActionResult<Sale> Get(int id)
     {
@@ -37,6 +42,10 @@ public class SaleController(SaleService saleService) : ControllerBase
     /// <summary>
     /// Добавить продажу
     /// </summary>
+    /// <param name="newSaleDTO">Данные для добавления</param>
+    /// <returns>Результат операции</returns>
+    /// <response code="200">Продажа</response>
+    /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpPost]
     public ActionResult<Sale> Post(SaleCreateDTO newSaleDTO)
     {
@@ -51,6 +60,10 @@ public class SaleController(SaleService saleService) : ControllerBase
     /// <summary>
     /// Изменить продажу
     /// </summary>
+    /// <param name="sale">Данные для изменения</param>
+    /// <returns>Результат операции</returns>
+    /// <response code="200">Данные успешно обновлены</response>
+    /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpPut]
     public IActionResult Put(SaleDTO sale)
     {
@@ -65,6 +78,10 @@ public class SaleController(SaleService saleService) : ControllerBase
     /// <summary>
     /// Удалить продажу
     /// </summary>
+    /// <param name="id">Идентификатор продажи</param>
+    /// <returns>Результат операции</returns>
+    /// <response code="200">Данные успешно удалены</response>
+    /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {

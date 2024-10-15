@@ -15,6 +15,7 @@ public class StoreController(StoreService storeService) : ControllerBase
     /// <summary>
     /// Получить все магазины
     /// </summary>
+    /// <returns>Список магазинов</returns>
     [HttpGet]
     public ActionResult<IEnumerable<Store>> Get()
     {
@@ -24,6 +25,10 @@ public class StoreController(StoreService storeService) : ControllerBase
     /// <summary>
     /// Получить магазин по идентификатору
     /// </summary>
+    /// <param name="id">Идентификатор магазина</param>
+    /// <returns>Результат операции</returns>
+    /// <response code="200">Магазин</response>
+    /// <response code="404">Магазин не найден</response>
     [HttpGet("{id}")]
     public ActionResult<Store> Get(int id)
     {
@@ -38,6 +43,8 @@ public class StoreController(StoreService storeService) : ControllerBase
     /// <summary>
     /// Добавить магазин
     /// </summary>
+    /// <param name="newStoreDTO">Данные для добавления</param>
+    /// <returns>Добавленный магазин</returns>
     [HttpPost]
     public ActionResult<Store> Post(StoreCreateDTO newStoreDTO)
     {
@@ -47,6 +54,10 @@ public class StoreController(StoreService storeService) : ControllerBase
     /// <summary>
     /// Изменить магазин
     /// </summary>
+    /// <param name="store">Данные для изменения</param>
+    /// <returns>Результат операции</returns>
+    /// <response code="200">Данные успешно обновлены</response>
+    /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpPut]
     public IActionResult Put(StoreDTO store)
     {
@@ -61,6 +72,10 @@ public class StoreController(StoreService storeService) : ControllerBase
     /// <summary>
     /// Удалить магазин
     /// </summary>
+    /// <param name="id">Идентификатор магазина</param>
+    /// <returns>Результат операции</returns>
+    /// <response code = "200">Магазин успешно удален</response>
+    /// <response code = "404">Магазин не найден</response>
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
