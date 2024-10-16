@@ -8,6 +8,11 @@ public class ProductService (ProductTypeService productTypeService) : IEntitySer
     private List<Product> _products = [];
     public Product? Create(ProductCreateDTO newProductDTO)
     {
+        var product = GetById(newProductDTO.Barcode);
+        if (product != null)
+        {
+            return null;
+        }
         var productType = productTypeService.GetById(newProductDTO.ProductTypeId);
         if (productType == null)
         {
