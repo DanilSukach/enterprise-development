@@ -1,13 +1,12 @@
-﻿using StoreCashFlow.Domain;
-using StoreCashFlow.Api.DTO;
+﻿using StoreCashFlow.Api.DTO;
+using StoreCashFlow.Domain.Context;
+using StoreCashFlow.Domain.Entity;
 namespace StoreCashFlow.Api.Service;
 
-public class ProductAvailabilityService(StoreService storeService, ProductService productService) : IEntityService<ProductAvailability, int, ProductAvailabilityCreateDTO, ProductAvailabilityDTO>
+public class ProductAvailabilityService(StoreCashFlowDbContext storeCashFlowDbContext, StoreService storeService, ProductService productService) : IEntityService<ProductAvailability, int, ProductAvailabilityCreateDTO, ProductAvailabilityDTO>
 {
-    private List<ProductAvailability> _productAvailabilities = [];
-    private int _productAvailabilityId = 1;
     public ProductAvailability? Create(ProductAvailabilityCreateDTO newProductAvailabilityDTO)
-    {   
+    {
         var store = storeService.GetById(newProductAvailabilityDTO.StoreId);
         var product = productService.GetById(newProductAvailabilityDTO.ProductId);
         if (store == null || product == null)
@@ -16,20 +15,21 @@ public class ProductAvailabilityService(StoreService storeService, ProductServic
         }
         var newProductAvailability = new ProductAvailability
         {
-            Id = _productAvailabilityId++,
+            Id = 0,
             Store = store,
             Product = product,
             Quantity = newProductAvailabilityDTO.Quantity
         };
-        _productAvailabilities.Add(newProductAvailability);
+        storeCashFlowDbContext.Add(newProductAvailability);
+        storeCashFlowDbContext.SaveChanges();
         return newProductAvailability;
     }
 
-    public List<ProductAvailability> GetAll() => _productAvailabilities;
+    public IEnumerable<ProductAvailability> GetAll() => storeCashFlowDbContext.ProductAvailability;
 
     public ProductAvailability? GetById(int id)
     {
-        return _productAvailabilities.FirstOrDefault(c => c.Id == id);
+        return storeCashFlowDbContext.ProductAvailability.FirstOrDefault(c => c.Id == id);
     }
 
     public bool Delete(int id)
@@ -39,7 +39,9 @@ public class ProductAvailabilityService(StoreService storeService, ProductServic
         {
             return false;
         }
-        return _productAvailabilities.Remove(productAvailability);
+        storeCashFlowDbContext.ProductAvailability.Remove(productAvailability);
+        storeCashFlowDbContext.SaveChanges();
+        return true;
     }
 
     public bool Update(ProductAvailabilityDTO updateProductAvailability)
@@ -58,6 +60,7 @@ public class ProductAvailabilityService(StoreService storeService, ProductServic
         productAvailability.Store = store;
         productAvailability.Product = product;
         productAvailability.Quantity = updateProductAvailability.Quantity;
+        storeCashFlowDbContext.SaveChanges();
         return true;
     }
 }

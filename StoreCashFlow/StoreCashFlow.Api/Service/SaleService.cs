@@ -1,12 +1,12 @@
 ﻿using StoreCashFlow.Api.DTO;
-using StoreCashFlow.Domain;
+using StoreCashFlow.Domain.Context;
+using StoreCashFlow.Domain.Entity;
+using System.Collections.Generic;
 
 namespace StoreCashFlow.Api.Service;
 
-public class SaleService(ProductService productService, StoreService storeService, CustomerService customerService) : IEntityService<Sale, int, SaleCreateDTO, SaleDTO>
+public class SaleService(StoreCashFlowDbContext storeCashFlowDbContext, ProductService productService, StoreService storeService, CustomerService customerService) : IEntityService<Sale, int, SaleCreateDTO, SaleDTO>
 {
-    private List<Sale> _sales = [];
-    private int _saleId = 1;
     public Sale? Create(SaleCreateDTO newSaleDTO)
     {
         var product = productService.GetById(newSaleDTO.ProductId);
@@ -18,22 +18,23 @@ public class SaleService(ProductService productService, StoreService storeServic
         }
         var newSale = new Sale
         {
-            SaleId = _saleId++,
+            SaleId = 0,
             SaleDate = newSaleDTO.SaleDate,
             Product = product,
             Quantity = newSaleDTO.Quantity,
             Store = store,
             Customer = customer
         };
-        _sales.Add(newSale);
+        storeCashFlowDbContext.Sale.Add(newSale);
+        storeCashFlowDbContext.SaveChanges();
         return newSale;
     }
 
-    public List<Sale> GetAll() => _sales;
+    public IEnumerable<Sale> GetAll() => storeCashFlowDbContext.Sale;
 
     public Sale? GetById(int id)
     {
-        return _sales.FirstOrDefault(c => c.SaleId == id);
+        return storeCashFlowDbContext.Sale.FirstOrDefault(c => c.SaleId == id);
     }
 
     public bool Delete(int id)
@@ -43,7 +44,8 @@ public class SaleService(ProductService productService, StoreService storeServic
         {
             return false;
         }
-        _sales.Remove(sale);
+        storeCashFlowDbContext.Sale.Remove(sale);
+        storeCashFlowDbContext.SaveChanges();
         return true;
     }
 
@@ -66,6 +68,7 @@ public class SaleService(ProductService productService, StoreService storeServic
         sale.Quantity = updateSale.Quantity;
         sale.Store = store;
         sale.Customer = customer;
+        storeCashFlowDbContext.SaveChanges();
         return true;
     }
 }

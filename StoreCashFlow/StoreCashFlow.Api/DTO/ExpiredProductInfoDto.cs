@@ -1,4 +1,4 @@
-﻿using StoreCashFlow.Domain;
+﻿using StoreCashFlow.Domain.Entity;
 
 namespace StoreCashFlow.Api.DTO;
 

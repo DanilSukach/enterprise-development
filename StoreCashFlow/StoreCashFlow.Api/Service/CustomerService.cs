@@ -1,31 +1,31 @@
-﻿using StoreCashFlow.Domain;
-using StoreCashFlow.Api.DTO;
+﻿using StoreCashFlow.Api.DTO;
+using StoreCashFlow.Domain.Context;
+using StoreCashFlow.Domain.Entity;
 
 namespace StoreCashFlow.Api.Service;
 
-public class CustomerService() : IEntityService<Customer, int, CustomerCreateDTO, CustomerDTO>
+public class CustomerService(StoreCashFlowDbContext storeCashFlowDbContext) : IEntityService<Customer, int, CustomerCreateDTO, CustomerDTO>
 {
-    private List<Customer> _customers = [];
-    private int _customerId = 1;
     public Customer Create(CustomerCreateDTO newCustomerDTO)
     {
         var newCustomer = new Customer
         {
-            CustomerId = _customerId++,
+            CustomerId = 0,
             CardNumber = newCustomerDTO.CardNumber,
             LastName = newCustomerDTO.LastName,
             FirstName = newCustomerDTO.FirstName,
             Potronimic = newCustomerDTO.Potronimic
         };
-        _customers.Add(newCustomer);
+        storeCashFlowDbContext.Customers.Add(newCustomer);
+        storeCashFlowDbContext.SaveChanges();
         return newCustomer;
     }
 
-    public List<Customer> GetAll() => _customers;
+    public IEnumerable<Customer> GetAll() => storeCashFlowDbContext.Customers;
 
     public Customer? GetById(int id)
     {
-        return _customers.FirstOrDefault(c => c.CustomerId == id);
+        return storeCashFlowDbContext.Customers.FirstOrDefault(c => c.CustomerId == id);
     }
 
     public bool Delete(int id)
@@ -35,7 +35,9 @@ public class CustomerService() : IEntityService<Customer, int, CustomerCreateDTO
         {
             return false;
         }
-        return _customers.Remove(customer);
+        storeCashFlowDbContext.Customers.Remove(customer);
+        storeCashFlowDbContext.SaveChanges();
+        return true;
     }
 
     public bool Update(CustomerDTO updateCustomer)
@@ -45,10 +47,13 @@ public class CustomerService() : IEntityService<Customer, int, CustomerCreateDTO
         {
             return false;
         }
+
         customer.FirstName = updateCustomer.FirstName;
         customer.LastName = updateCustomer.LastName;
         customer.Potronimic = updateCustomer.Potronimic;
         customer.CardNumber = updateCustomer.CardNumber;
+
+        storeCashFlowDbContext.SaveChanges();
         return true;
     }
 }

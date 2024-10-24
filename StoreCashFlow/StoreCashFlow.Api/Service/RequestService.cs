@@ -1,26 +1,27 @@
 ﻿using StoreCashFlow.Api.DTO;
-using StoreCashFlow.Domain;
+using StoreCashFlow.Domain.Context;
+using StoreCashFlow.Domain.Entity;
 namespace StoreCashFlow.Api.Service;
 
-public class RequestService(ProductAvailabilityService productAvailabilityService, SaleService saleService)
+public class RequestService(StoreCashFlowDbContext storeCashFlowDbContext)
 {
     public List<Product> ReturnAllProductsInStore(int id)
     {
-        return productAvailabilityService.GetAll()
+        return storeCashFlowDbContext.ProductAvailability
             .Where(pa => pa.Store.StoreId == id)
             .Select(pa => pa.Product)
             .ToList();
     }
     public List<Store> ReturnStoresWithProductInStock(string barcode)
     {
-        return productAvailabilityService.GetAll()
+        return storeCashFlowDbContext.ProductAvailability
             .Where(pa => pa.Product.Barcode == barcode)
             .Select(pa => pa.Store)
             .ToList();
     }
     public List<ProductPriceInfoDto> ReturnAveragePriceByGroupAndStore()
     {
-        return productAvailabilityService.GetAll()
+        return storeCashFlowDbContext.ProductAvailability
             .GroupBy(pa => new { pa.Store.StoreId, pa.Product.ProductGroupCode })
             .Select(group => new ProductPriceInfoDto
             {
@@ -32,7 +33,7 @@ public class RequestService(ProductAvailabilityService productAvailabilityServic
     }
     public List<SaleInfoDto> ReturnTop5SalesByTotalAmount()
     {
-        return saleService.GetAll()
+        return storeCashFlowDbContext.Sale
             .GroupBy(s => s.Product.ProductGroupCode)
             .Select(group => new SaleInfoDto
             {
@@ -45,7 +46,7 @@ public class RequestService(ProductAvailabilityService productAvailabilityServic
     }
     public List<ExpiredProductInfoDto> ReturnExpiredProducts(DateTime expirationDate)
     {
-        return productAvailabilityService.GetAll()
+        return storeCashFlowDbContext.ProductAvailability
             .Where(pa => pa.Product.ExpirationDate < expirationDate)
             .Select(pa => new ExpiredProductInfoDto
             {
@@ -56,7 +57,7 @@ public class RequestService(ProductAvailabilityService productAvailabilityServic
     }
     public List<HighSalesDto> GetStoresWithHighSales(DateTime monthStart, DateTime monthEnd, double threshold)
     {
-        return saleService.GetAll()
+        return storeCashFlowDbContext.Sale
             .Where(s => s.SaleDate >= monthStart && s.SaleDate <= monthEnd)
             .GroupBy(s => s.Store.StoreId)
             .Select(group => new HighSalesDto

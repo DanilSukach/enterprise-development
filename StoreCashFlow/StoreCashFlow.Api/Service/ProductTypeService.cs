@@ -1,27 +1,27 @@
-﻿using StoreCashFlow.Domain;
-using StoreCashFlow.Api.DTO;
+﻿using StoreCashFlow.Api.DTO;
+using StoreCashFlow.Domain.Context;
+using StoreCashFlow.Domain.Entity;
 namespace StoreCashFlow.Api.Service;
 
-public class ProductTypeService : IEntityService<ProductType, int, ProductTypeCreateDTO, ProductTypeDTO>
+public class ProductTypeService(StoreCashFlowDbContext storeCashFlowDbContext) : IEntityService<ProductType, int, ProductTypeCreateDTO, ProductTypeDTO>
 {
-    private List<ProductType> _productTypes = [];
-    private int _productTypeId = 1;
     public ProductType Create(ProductTypeCreateDTO newProductTypeDTO)
     {
         var newProductType = new ProductType
         {
-            Id = _productTypeId++,
+            Id = 0,
             Name = newProductTypeDTO.Name
         };
-        _productTypes.Add(newProductType);
+        storeCashFlowDbContext.ProductTypes.Add(newProductType);
+        storeCashFlowDbContext.SaveChanges();
         return newProductType;
     }
 
-    public List<ProductType> GetAll() => _productTypes;
+    public IEnumerable<ProductType> GetAll() => storeCashFlowDbContext.ProductTypes;
 
     public ProductType? GetById(int id)
     {
-        return _productTypes.FirstOrDefault(c => c.Id == id);
+        return storeCashFlowDbContext.ProductTypes.FirstOrDefault(c => c.Id == id);
     }
 
     public bool Delete(int id)
@@ -31,7 +31,8 @@ public class ProductTypeService : IEntityService<ProductType, int, ProductTypeCr
         {
             return false;
         }
-        _productTypes.Remove(productType);
+        storeCashFlowDbContext.Remove(productType);
+        storeCashFlowDbContext.SaveChanges();
         return true;
     }
 
@@ -43,6 +44,7 @@ public class ProductTypeService : IEntityService<ProductType, int, ProductTypeCr
             return false;
         }
         productType.Name = updateProductType.Name;
+        storeCashFlowDbContext.SaveChanges();
         return true;
     }
 }

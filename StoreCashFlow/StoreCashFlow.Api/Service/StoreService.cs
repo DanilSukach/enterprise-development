@@ -1,27 +1,27 @@
-﻿using StoreCashFlow.Domain;
-using StoreCashFlow.Api.DTO;
+﻿using StoreCashFlow.Api.DTO;
+using StoreCashFlow.Domain.Context;
+using StoreCashFlow.Domain.Entity;
 namespace StoreCashFlow.Api.Service;
 
-public class StoreService : IEntityService<Store, int, StoreCreateDTO, StoreDTO>
+public class StoreService(StoreCashFlowDbContext storeCashFlowDbContext) : IEntityService<Store, int, StoreCreateDTO, StoreDTO>
 {
-    private List<Store> _stores = [];
-    private int _storeId = 1;
     public Store Create(StoreCreateDTO newStoreDTO)
     {   
         var newStore = new Store
         {
-            StoreId = _storeId++,
+            StoreId = 0,
             Location = newStoreDTO.Location
         };
-        _stores.Add(newStore);
+        storeCashFlowDbContext.Store.Add(newStore);
+        storeCashFlowDbContext.SaveChanges();
         return newStore;
     }
 
-    public List<Store> GetAll() => _stores;
+    public IEnumerable<Store> GetAll() => storeCashFlowDbContext.Store;
 
     public Store? GetById(int id)
     {
-        return _stores.FirstOrDefault(c => c.StoreId == id);
+        return storeCashFlowDbContext.Store.FirstOrDefault(c => c.StoreId == id);
     }
 
     public bool Delete(int id)
@@ -31,7 +31,9 @@ public class StoreService : IEntityService<Store, int, StoreCreateDTO, StoreDTO>
         {
             return false;
         }
-        return _stores.Remove(store);
+        storeCashFlowDbContext.Store.Remove(store);
+        storeCashFlowDbContext.SaveChanges();
+        return true;
     }
 
     public bool Update(StoreDTO updateStore)
@@ -42,6 +44,7 @@ public class StoreService : IEntityService<Store, int, StoreCreateDTO, StoreDTO>
             return false;
         }
         store.Location = updateStore.Location;
+        storeCashFlowDbContext.SaveChanges();
         return true;
     }
 }

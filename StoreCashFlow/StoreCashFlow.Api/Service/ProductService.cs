@@ -1,11 +1,11 @@
-﻿using StoreCashFlow.Domain;
-using StoreCashFlow.Api.DTO;
+﻿using StoreCashFlow.Api.DTO;
+using StoreCashFlow.Domain.Context;
+using StoreCashFlow.Domain.Entity;
 
 namespace StoreCashFlow.Api.Service;
 
-public class ProductService (ProductTypeService productTypeService) : IEntityService<Product, string, ProductCreateDTO, ProductDTO>
-{
-    private List<Product> _products = [];
+public class ProductService (StoreCashFlowDbContext storeCashFlowDbContext, ProductTypeService productTypeService) : IEntityService<Product, string, ProductCreateDTO, ProductDTO>
+{ 
     public Product? Create(ProductCreateDTO newProductDTO)
     {
         var product = GetById(newProductDTO.Barcode);
@@ -28,15 +28,16 @@ public class ProductService (ProductTypeService productTypeService) : IEntitySer
             Weight = newProductDTO.Weight,
             ExpirationDate = newProductDTO.ExpirationDate
         };
-        _products.Add(newProduct);
+        storeCashFlowDbContext.Products.Add(newProduct);
+        storeCashFlowDbContext.SaveChanges();
         return newProduct;
     }
 
-    public List<Product> GetAll() => _products;
+    public IEnumerable<Product> GetAll() => storeCashFlowDbContext.Products;
 
     public Product? GetById(string id)
     {
-        return _products.FirstOrDefault(c => c.Barcode == id);
+        return storeCashFlowDbContext.Products.FirstOrDefault(c => c.Barcode == id);
     }
 
     public bool Delete(string id)
@@ -46,7 +47,9 @@ public class ProductService (ProductTypeService productTypeService) : IEntitySer
         {
             return false;
         }
-        return _products.Remove(product);
+        storeCashFlowDbContext.Products.Remove(product);
+        storeCashFlowDbContext.SaveChanges();
+        return true;
     }
 
     public bool Update(ProductDTO updateProduct)
@@ -67,6 +70,7 @@ public class ProductService (ProductTypeService productTypeService) : IEntitySer
         product.ProductType = productType;
         product.Weight = updateProduct.Weight;
         product.ExpirationDate = updateProduct.ExpirationDate;
+        storeCashFlowDbContext.SaveChanges();
         return true;
     }
 }

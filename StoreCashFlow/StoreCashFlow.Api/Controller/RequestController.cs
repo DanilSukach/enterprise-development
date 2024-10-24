@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StoreCashFlow.Api.DTO;
 using StoreCashFlow.Api.Service;
-using StoreCashFlow.Domain;
+using StoreCashFlow.Domain.Entity;
 
 namespace StoreCashFlow.Api.Controller;
 

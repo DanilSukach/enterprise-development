@@ -1,8 +1,14 @@
+using Microsoft.EntityFrameworkCore;
 using StoreCashFlow.Api.Service;
+using StoreCashFlow.Domain.Context;
 using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<StoreCashFlowDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -12,13 +18,13 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(xmlPath);
 });
 
-builder.Services.AddSingleton<CustomerService>();
-builder.Services.AddSingleton<ProductService>();
-builder.Services.AddSingleton<ProductAvailabilityService>();
-builder.Services.AddSingleton<ProductTypeService>();
-builder.Services.AddSingleton<SaleService>();
-builder.Services.AddSingleton<StoreService>();
-builder.Services.AddSingleton<RequestService>();
+builder.Services.AddScoped<CustomerService>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ProductAvailabilityService>();
+builder.Services.AddScoped<ProductTypeService>();
+builder.Services.AddScoped<SaleService>();
+builder.Services.AddScoped<StoreService>();
+builder.Services.AddScoped<RequestService>();
 
 builder.Services.AddControllers();
 
