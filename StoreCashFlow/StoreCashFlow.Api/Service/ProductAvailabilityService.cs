@@ -1,4 +1,5 @@
-﻿using StoreCashFlow.Api.DTO;
+﻿using Microsoft.EntityFrameworkCore;
+using StoreCashFlow.Api.DTO;
 using StoreCashFlow.Domain.Context;
 using StoreCashFlow.Domain.Entity;
 namespace StoreCashFlow.Api.Service;
@@ -25,11 +26,11 @@ public class ProductAvailabilityService(StoreCashFlowDbContext storeCashFlowDbCo
         return newProductAvailability;
     }
 
-    public IEnumerable<ProductAvailability> GetAll() => storeCashFlowDbContext.ProductAvailability;
+    public IEnumerable<ProductAvailability> GetAll() => storeCashFlowDbContext.ProductAvailability.Include(p => p.Product).ThenInclude(p => p.ProductType).Include(p => p.Store);
 
     public ProductAvailability? GetById(int id)
     {
-        return storeCashFlowDbContext.ProductAvailability.FirstOrDefault(c => c.Id == id);
+        return storeCashFlowDbContext.ProductAvailability.Include(p => p.Product).ThenInclude(p => p.ProductType).Include(p => p.Store).FirstOrDefault(c => c.Id == id);
     }
 
     public bool Delete(int id)

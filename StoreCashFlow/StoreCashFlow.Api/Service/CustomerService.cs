@@ -14,7 +14,7 @@ public class CustomerService(StoreCashFlowDbContext storeCashFlowDbContext) : IE
             CardNumber = newCustomerDTO.CardNumber,
             LastName = newCustomerDTO.LastName,
             FirstName = newCustomerDTO.FirstName,
-            Potronimic = newCustomerDTO.Potronimic
+            Patronymic = newCustomerDTO.Patronymic
         };
         storeCashFlowDbContext.Customers.Add(newCustomer);
         storeCashFlowDbContext.SaveChanges();
@@ -50,7 +50,7 @@ public class CustomerService(StoreCashFlowDbContext storeCashFlowDbContext) : IE
 
         customer.FirstName = updateCustomer.FirstName;
         customer.LastName = updateCustomer.LastName;
-        customer.Potronimic = updateCustomer.Potronimic;
+        customer.Patronymic = updateCustomer.Patronymic;
         customer.CardNumber = updateCustomer.CardNumber;
 
         storeCashFlowDbContext.SaveChanges();

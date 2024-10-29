@@ -6,13 +6,14 @@ namespace StoreCashFlow.Domain.Entity;
 /// <summary>
 /// Продажи товаров покупателям
 /// </summary>
-[Table("Sales")]
+[Table("sales")]
 public class Sale
 {
     /// <summary>
     /// Идентификатор покупки
     /// </summary>
     [Key]
+    [Column("sale_id")]
     public int SaleId { get; set; }
     /// <summary>
     /// Магазин

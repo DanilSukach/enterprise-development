@@ -14,9 +14,9 @@ public class StoreCashFixture
     public List<Sale> Sales;
     public List<Customer> Customers =
     [
-        new() { CustomerId = 0, CardNumber = "12345", FirstName = "Иван", LastName = "Иванов", Potronimic = "Иванович" },
-        new() { CustomerId = 1, CardNumber = "54321",  FirstName = "Владимир", LastName = "Иванов", Potronimic = "Иванович" },
-        new() { CustomerId = 2, CardNumber = "54431",  FirstName = "Сергей", LastName = "Иванов", Potronimic = "Владимирович" }
+        new() { CustomerId = 0, CardNumber = "12345", FirstName = "Иван", LastName = "Иванов", Patronymic = "Иванович" },
+        new() { CustomerId = 1, CardNumber = "54321",  FirstName = "Владимир", LastName = "Иванов", Patronymic = "Иванович" },
+        new() { CustomerId = 2, CardNumber = "54431",  FirstName = "Сергей", LastName = "Иванов", Patronymic = "Владимирович" }
     ];
     public List<ProductType> ProductTypes =
     [

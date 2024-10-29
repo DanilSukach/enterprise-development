@@ -26,22 +26,34 @@ public class StoreCashFlowDbContext(DbContextOptions<StoreCashFlowDbContext> opt
         modelBuilder.Entity<Product>()
             .HasKey(p => p.Barcode);
         modelBuilder.Entity<Product>()
-            .Navigation(p => p.ProductType)
-            .AutoInclude();
+            .HasOne(p => p.ProductType)
+                .WithOne()
+                .HasForeignKey<Product>("product_type")
+                .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<ProductAvailability>()
-            .Navigation(p => p.Product)
-            .AutoInclude();
+            .HasOne(p => p.Product)
+                .WithMany()
+                .HasForeignKey("product_id")
+                .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<ProductAvailability>()
-            .Navigation(p => p.Store)
-            .AutoInclude();
+            .HasOne(p => p.Store)
+                .WithMany()
+                .HasForeignKey("store_id")
+                .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<Sale>()
-            .Navigation(p => p.Product)
-            .AutoInclude();
+            .HasOne(p => p.Product)
+                .WithMany()
+                .HasForeignKey("product_id")
+                .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<Sale>()
-            .Navigation(p => p.Store)
-            .AutoInclude();
+            .HasOne(p => p.Store)
+                .WithMany()
+                .HasForeignKey("store_id")
+                .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<Sale>()
-            .Navigation(p => p.Customer)
-            .AutoInclude();
+            .HasOne(p => p.Customer)
+                .WithMany()
+                .HasForeignKey("customer_id")
+                .OnDelete(DeleteBehavior.Cascade);
     }
 }

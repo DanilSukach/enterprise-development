@@ -13,6 +13,7 @@ public class Customer
     /// Идентификатор покупателя
     /// </summary>
     [Key]
+    [Column("customer_id")]
     public required int CustomerId { get; set; }
     /// <summary>
     /// Номер карты
@@ -25,21 +26,18 @@ public class Customer
     /// Фамилия
     /// </summary>
     [Column("last_name")]
-    [MaxLength(50)]
     [Required]
     public required string LastName { get; set; }
     /// <summary>
     /// Имя
     /// </summary>
     [Column("first_name")]
-    [MaxLength(50)]
     [Required]
     public required string FirstName { get; set; }
     /// <summary>
     /// Отчество
     /// </summary>
     [Column("patronymic")]
-    [MaxLength(50)]
     [Required]
-    public required string Potronimic { get; set; }
+    public required string Patronymic { get; set; }
 }

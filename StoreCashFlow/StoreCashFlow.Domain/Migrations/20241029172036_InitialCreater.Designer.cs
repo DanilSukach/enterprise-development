@@ -12,8 +12,8 @@ using StoreCashFlow.Domain.Context;
 namespace StoreCashFlow.Domain.Migrations
 {
     [DbContext(typeof(StoreCashFlowDbContext))]
-    [Migration("20241024080752_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241029172036_InitialCreater")]
+    partial class InitialCreater
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,7 +29,8 @@ namespace StoreCashFlow.Domain.Migrations
                 {
                     b.Property<int>("CustomerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("customer_id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CustomerId"));
 
@@ -41,20 +42,17 @@ namespace StoreCashFlow.Domain.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasColumnType("text")
                         .HasColumnName("first_name");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasColumnType("text")
                         .HasColumnName("last_name");
 
-                    b.Property<string>("Potronimic")
+                    b.Property<string>("Patronymic")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasColumnType("text")
                         .HasColumnName("patronymic");
 
                     b.HasKey("CustomerId");
@@ -89,16 +87,17 @@ namespace StoreCashFlow.Domain.Migrations
                         .HasColumnType("character varying(10)")
                         .HasColumnName("product_group_code");
 
-                    b.Property<int>("ProductTypeId")
-                        .HasColumnType("integer");
-
                     b.Property<double>("Weight")
                         .HasColumnType("double precision")
                         .HasColumnName("weight");
 
+                    b.Property<int>("product_type")
+                        .HasColumnType("integer");
+
                     b.HasKey("Barcode");
 
-                    b.HasIndex("ProductTypeId");
+                    b.HasIndex("product_type")
+                        .IsUnique();
 
                     b.ToTable("products");
                 });
@@ -107,26 +106,26 @@ namespace StoreCashFlow.Domain.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ProductBarcode")
-                        .IsRequired()
-                        .HasColumnType("character varying(13)");
 
                     b.Property<double>("Quantity")
                         .HasColumnType("double precision")
                         .HasColumnName("quantity");
 
-                    b.Property<int>("StoreId")
+                    b.Property<string>("product_id")
+                        .HasColumnType("character varying(13)");
+
+                    b.Property<int>("store_id")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductBarcode");
+                    b.HasIndex("product_id");
 
-                    b.HasIndex("StoreId");
+                    b.HasIndex("store_id");
 
                     b.ToTable("product_availability");
                 });
@@ -135,7 +134,8 @@ namespace StoreCashFlow.Domain.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
@@ -166,16 +166,10 @@ namespace StoreCashFlow.Domain.Migrations
                 {
                     b.Property<int>("SaleId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("sale_id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SaleId"));
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ProductBarcode")
-                        .IsRequired()
-                        .HasColumnType("character varying(13)");
 
                     b.Property<double>("Quantity")
                         .HasColumnType("double precision")
@@ -185,32 +179,38 @@ namespace StoreCashFlow.Domain.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("sale_date");
 
-                    b.Property<int>("StoreId")
+                    b.Property<int>("customer_id")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("product_id")
+                        .HasColumnType("character varying(13)");
+
+                    b.Property<int>("store_id")
                         .HasColumnType("integer");
 
                     b.HasKey("SaleId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("customer_id");
 
-                    b.HasIndex("ProductBarcode");
+                    b.HasIndex("product_id");
 
-                    b.HasIndex("StoreId");
+                    b.HasIndex("store_id");
 
-                    b.ToTable("Sales");
+                    b.ToTable("sales");
                 });
 
             modelBuilder.Entity("StoreCashFlow.Domain.Entity.Store", b =>
                 {
                     b.Property<int>("StoreId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("store_id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("StoreId"));
 
                     b.Property<string>("Location")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasColumnType("text")
                         .HasColumnName("location");
 
                     b.HasKey("StoreId");
@@ -221,8 +221,8 @@ namespace StoreCashFlow.Domain.Migrations
             modelBuilder.Entity("StoreCashFlow.Domain.Entity.Product", b =>
                 {
                     b.HasOne("StoreCashFlow.Domain.Entity.ProductType", "ProductType")
-                        .WithMany()
-                        .HasForeignKey("ProductTypeId")
+                        .WithOne()
+                        .HasForeignKey("StoreCashFlow.Domain.Entity.Product", "product_type")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -233,13 +233,13 @@ namespace StoreCashFlow.Domain.Migrations
                 {
                     b.HasOne("StoreCashFlow.Domain.Entity.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductBarcode")
+                        .HasForeignKey("product_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("StoreCashFlow.Domain.Entity.Store", "Store")
                         .WithMany()
-                        .HasForeignKey("StoreId")
+                        .HasForeignKey("store_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -252,19 +252,19 @@ namespace StoreCashFlow.Domain.Migrations
                 {
                     b.HasOne("StoreCashFlow.Domain.Entity.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerId")
+                        .HasForeignKey("customer_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("StoreCashFlow.Domain.Entity.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductBarcode")
+                        .HasForeignKey("product_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("StoreCashFlow.Domain.Entity.Store", "Store")
                         .WithMany()
-                        .HasForeignKey("StoreId")
+                        .HasForeignKey("store_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

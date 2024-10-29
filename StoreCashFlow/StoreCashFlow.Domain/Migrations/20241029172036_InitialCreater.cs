@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -6,9 +7,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace StoreCashFlow.Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialCreater : Migration
     {
-        private static readonly string[] columns = new[] { "Id", "name" };
+        private static readonly string[] columns = new[] { "id", "name" };
 
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,42 +18,42 @@ namespace StoreCashFlow.Domain.Migrations
                 name: "customers",
                 columns: table => new
                 {
-                    CustomerId = table.Column<int>(type: "integer", nullable: false)
+                    customer_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     card_number = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: false),
-                    last_name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    first_name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    patronymic = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    last_name = table.Column<string>(type: "text", nullable: false),
+                    first_name = table.Column<string>(type: "text", nullable: false),
+                    patronymic = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_customers", x => x.CustomerId);
+                    table.PrimaryKey("PK_customers", x => x.customer_id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "product_types",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_product_types", x => x.Id);
+                    table.PrimaryKey("PK_product_types", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "stores",
                 columns: table => new
                 {
-                    StoreId = table.Column<int>(type: "integer", nullable: false)
+                    store_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    location = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    location = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_stores", x => x.StoreId);
+                    table.PrimaryKey("PK_stores", x => x.store_id);
                 });
 
             migrationBuilder.CreateTable(
@@ -63,7 +64,7 @@ namespace StoreCashFlow.Domain.Migrations
                     product_group_code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     weight = table.Column<double>(type: "double precision", nullable: false),
-                    ProductTypeId = table.Column<int>(type: "integer", nullable: false),
+                    product_type = table.Column<int>(type: "integer", nullable: false),
                     price = table.Column<double>(type: "double precision", nullable: false),
                     expiration_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -71,10 +72,10 @@ namespace StoreCashFlow.Domain.Migrations
                 {
                     table.PrimaryKey("PK_products", x => x.barcode);
                     table.ForeignKey(
-                        name: "FK_products_product_types_ProductTypeId",
-                        column: x => x.ProductTypeId,
+                        name: "FK_products_product_types_product_type",
+                        column: x => x.product_type,
                         principalTable: "product_types",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -82,61 +83,61 @@ namespace StoreCashFlow.Domain.Migrations
                 name: "product_availability",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    StoreId = table.Column<int>(type: "integer", nullable: false),
-                    ProductBarcode = table.Column<string>(type: "character varying(13)", nullable: false),
+                    store_id = table.Column<int>(type: "integer", nullable: false),
+                    product_id = table.Column<string>(type: "character varying(13)", nullable: true),
                     quantity = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_product_availability", x => x.Id);
+                    table.PrimaryKey("PK_product_availability", x => x.id);
                     table.ForeignKey(
-                        name: "FK_product_availability_products_ProductBarcode",
-                        column: x => x.ProductBarcode,
+                        name: "FK_product_availability_products_product_id",
+                        column: x => x.product_id,
                         principalTable: "products",
                         principalColumn: "barcode",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_product_availability_stores_StoreId",
-                        column: x => x.StoreId,
+                        name: "FK_product_availability_stores_store_id",
+                        column: x => x.store_id,
                         principalTable: "stores",
-                        principalColumn: "StoreId",
+                        principalColumn: "store_id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sales",
+                name: "sales",
                 columns: table => new
                 {
-                    SaleId = table.Column<int>(type: "integer", nullable: false)
+                    sale_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    StoreId = table.Column<int>(type: "integer", nullable: false),
-                    ProductBarcode = table.Column<string>(type: "character varying(13)", nullable: false),
+                    store_id = table.Column<int>(type: "integer", nullable: false),
+                    product_id = table.Column<string>(type: "character varying(13)", nullable: true),
                     quantity = table.Column<double>(type: "double precision", nullable: false),
                     sale_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CustomerId = table.Column<int>(type: "integer", nullable: false)
+                    customer_id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sales", x => x.SaleId);
+                    table.PrimaryKey("PK_sales", x => x.sale_id);
                     table.ForeignKey(
-                        name: "FK_Sales_customers_CustomerId",
-                        column: x => x.CustomerId,
+                        name: "FK_sales_customers_customer_id",
+                        column: x => x.customer_id,
                         principalTable: "customers",
-                        principalColumn: "CustomerId",
+                        principalColumn: "customer_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Sales_products_ProductBarcode",
-                        column: x => x.ProductBarcode,
+                        name: "FK_sales_products_product_id",
+                        column: x => x.product_id,
                         principalTable: "products",
                         principalColumn: "barcode",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Sales_stores_StoreId",
-                        column: x => x.StoreId,
+                        name: "FK_sales_stores_store_id",
+                        column: x => x.store_id,
                         principalTable: "stores",
-                        principalColumn: "StoreId",
+                        principalColumn: "store_id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -150,34 +151,35 @@ namespace StoreCashFlow.Domain.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_product_availability_ProductBarcode",
+                name: "IX_product_availability_product_id",
                 table: "product_availability",
-                column: "ProductBarcode");
+                column: "product_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_product_availability_StoreId",
+                name: "IX_product_availability_store_id",
                 table: "product_availability",
-                column: "StoreId");
+                column: "store_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_products_ProductTypeId",
+                name: "IX_products_product_type",
                 table: "products",
-                column: "ProductTypeId");
+                column: "product_type",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sales_CustomerId",
-                table: "Sales",
-                column: "CustomerId");
+                name: "IX_sales_customer_id",
+                table: "sales",
+                column: "customer_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sales_ProductBarcode",
-                table: "Sales",
-                column: "ProductBarcode");
+                name: "IX_sales_product_id",
+                table: "sales",
+                column: "product_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sales_StoreId",
-                table: "Sales",
-                column: "StoreId");
+                name: "IX_sales_store_id",
+                table: "sales",
+                column: "store_id");
         }
 
         /// <inheritdoc />
@@ -187,7 +189,7 @@ namespace StoreCashFlow.Domain.Migrations
                 name: "product_availability");
 
             migrationBuilder.DropTable(
-                name: "Sales");
+                name: "sales");
 
             migrationBuilder.DropTable(
                 name: "customers");

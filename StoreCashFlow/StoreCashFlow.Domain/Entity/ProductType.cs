@@ -13,6 +13,7 @@ public class ProductType
     /// Идентификатор типа товара
     /// </summary>
     [Key]
+    [Column("id")]
     public required int Id { get; set; }
     /// <summary>
     /// Тип товара

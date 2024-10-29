@@ -24,5 +24,5 @@ public class CustomerDTO
     /// <summary>
     /// Отчество
     /// </summary>
-    public required string Potronimic { get; set; }
+    public required string Patronymic { get; set; }
 }

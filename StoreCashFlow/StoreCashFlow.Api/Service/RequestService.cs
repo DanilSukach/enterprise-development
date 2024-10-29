@@ -1,4 +1,5 @@
-﻿using StoreCashFlow.Api.DTO;
+﻿using Microsoft.EntityFrameworkCore;
+using StoreCashFlow.Api.DTO;
 using StoreCashFlow.Domain.Context;
 using StoreCashFlow.Domain.Entity;
 namespace StoreCashFlow.Api.Service;
@@ -9,6 +10,8 @@ public class RequestService(StoreCashFlowDbContext storeCashFlowDbContext)
     {
         return storeCashFlowDbContext.ProductAvailability
             .Where(pa => pa.Store.StoreId == id)
+            .Include(pa => pa.Product)
+            .ThenInclude(p => p.ProductType)
             .Select(pa => pa.Product)
             .ToList();
     }
@@ -34,7 +37,11 @@ public class RequestService(StoreCashFlowDbContext storeCashFlowDbContext)
     public List<SaleInfoDto> ReturnTop5SalesByTotalAmount()
     {
         return storeCashFlowDbContext.Sale
+            .Include(s => s.Product)
+            .Include(s => s.Store)
+            .Include(s => s.Customer)
             .GroupBy(s => s.Product.ProductGroupCode)
+            .ToList()
             .Select(group => new SaleInfoDto
             {
                 ProductName = group.First().Product.Name,
@@ -47,6 +54,9 @@ public class RequestService(StoreCashFlowDbContext storeCashFlowDbContext)
     public List<ExpiredProductInfoDto> ReturnExpiredProducts(DateTime expirationDate)
     {
         return storeCashFlowDbContext.ProductAvailability
+            .Include(pa => pa.Product)
+            .ThenInclude(p => p.ProductType)
+            .Include(pa => pa.Store)
             .Where(pa => pa.Product.ExpirationDate < expirationDate)
             .Select(pa => new ExpiredProductInfoDto
             {
@@ -58,8 +68,12 @@ public class RequestService(StoreCashFlowDbContext storeCashFlowDbContext)
     public List<HighSalesDto> GetStoresWithHighSales(DateTime monthStart, DateTime monthEnd, double threshold)
     {
         return storeCashFlowDbContext.Sale
+            .Include(s => s.Store)
+            .Include(s => s.Product)
+            .Include(s => s.Customer)
             .Where(s => s.SaleDate >= monthStart && s.SaleDate <= monthEnd)
             .GroupBy(s => s.Store.StoreId)
+            .ToList()
             .Select(group => new HighSalesDto
             {
                 StoreId = group.Key,

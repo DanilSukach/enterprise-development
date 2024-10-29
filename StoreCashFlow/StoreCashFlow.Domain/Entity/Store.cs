@@ -13,12 +13,12 @@ public class Store
     /// Идентификатор магазина
     /// </summary>
     [Key]
+    [Column("store_id")]
     public int StoreId { get; set; }
     /// <summary>
     /// Местоположение магазина
     /// </summary>
     [Column("location")]
-    [MaxLength(50)]
     [Required]
     public required string Location { get; set; }
 }

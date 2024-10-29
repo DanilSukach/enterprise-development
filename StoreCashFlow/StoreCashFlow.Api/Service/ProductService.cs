@@ -1,4 +1,5 @@
-﻿using StoreCashFlow.Api.DTO;
+﻿using Microsoft.EntityFrameworkCore;
+using StoreCashFlow.Api.DTO;
 using StoreCashFlow.Domain.Context;
 using StoreCashFlow.Domain.Entity;
 
@@ -33,11 +34,11 @@ public class ProductService (StoreCashFlowDbContext storeCashFlowDbContext, Prod
         return newProduct;
     }
 
-    public IEnumerable<Product> GetAll() => storeCashFlowDbContext.Products;
+    public IEnumerable<Product> GetAll() => storeCashFlowDbContext.Products.Include(p => p.ProductType);
 
     public Product? GetById(string id)
     {
-        return storeCashFlowDbContext.Products.FirstOrDefault(c => c.Barcode == id);
+        return storeCashFlowDbContext.Products.Include(p => p.ProductType).FirstOrDefault(c => c.Barcode == id);
     }
 
     public bool Delete(string id)

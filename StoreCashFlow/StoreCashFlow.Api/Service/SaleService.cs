@@ -1,7 +1,7 @@
-﻿using StoreCashFlow.Api.DTO;
+﻿using Microsoft.EntityFrameworkCore;
+using StoreCashFlow.Api.DTO;
 using StoreCashFlow.Domain.Context;
 using StoreCashFlow.Domain.Entity;
-using System.Collections.Generic;
 
 namespace StoreCashFlow.Api.Service;
 
@@ -30,11 +30,11 @@ public class SaleService(StoreCashFlowDbContext storeCashFlowDbContext, ProductS
         return newSale;
     }
 
-    public IEnumerable<Sale> GetAll() => storeCashFlowDbContext.Sale;
+    public IEnumerable<Sale> GetAll() => storeCashFlowDbContext.Sale.Include(s => s.Product).ThenInclude(p => p.ProductType).Include(s => s.Store).Include(s => s.Customer);
 
     public Sale? GetById(int id)
     {
-        return storeCashFlowDbContext.Sale.FirstOrDefault(c => c.SaleId == id);
+        return storeCashFlowDbContext.Sale.Include(s => s.Product).ThenInclude(p => p.ProductType).Include(s => s.Store).Include(s => s.Customer).FirstOrDefault(c => c.SaleId == id);
     }
 
     public bool Delete(int id)

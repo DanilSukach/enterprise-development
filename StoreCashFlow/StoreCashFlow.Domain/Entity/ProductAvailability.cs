@@ -13,6 +13,7 @@ public class ProductAvailability
     /// Идентификатор наличия товара
     /// </summary>
     [Key]
+    [Column("id")]
     public int Id { get; set; }
     /// <summary>
     /// Магазин
