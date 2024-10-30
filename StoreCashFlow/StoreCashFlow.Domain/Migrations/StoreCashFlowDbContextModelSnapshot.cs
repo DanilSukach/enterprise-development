@@ -93,8 +93,7 @@ namespace StoreCashFlow.Domain.Migrations
 
                     b.HasKey("Barcode");
 
-                    b.HasIndex("product_type")
-                        .IsUnique();
+                    b.HasIndex("product_type");
 
                     b.ToTable("products");
                 });
@@ -218,8 +217,8 @@ namespace StoreCashFlow.Domain.Migrations
             modelBuilder.Entity("StoreCashFlow.Domain.Entity.Product", b =>
                 {
                     b.HasOne("StoreCashFlow.Domain.Entity.ProductType", "ProductType")
-                        .WithOne()
-                        .HasForeignKey("StoreCashFlow.Domain.Entity.Product", "product_type")
+                        .WithMany()
+                        .HasForeignKey("product_type")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

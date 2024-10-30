@@ -4,13 +4,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace StoreCashFlow.Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreater : Migration
+    public partial class InitialCreate : Migration
     {
-        private static readonly string[] columns = new[] { "id", "name" };
-
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -143,7 +143,7 @@ namespace StoreCashFlow.Domain.Migrations
 
             migrationBuilder.InsertData(
                 table: "product_types",
-                columns: columns,
+                columns: new[] { "id", "name" },
                 values: new object[,]
                 {
                     { 1, "Штучный" },
@@ -163,8 +163,7 @@ namespace StoreCashFlow.Domain.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_products_product_type",
                 table: "products",
-                column: "product_type",
-                unique: true);
+                column: "product_type");
 
             migrationBuilder.CreateIndex(
                 name: "IX_sales_customer_id",

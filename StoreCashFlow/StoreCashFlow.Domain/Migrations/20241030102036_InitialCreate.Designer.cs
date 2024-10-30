@@ -12,8 +12,8 @@ using StoreCashFlow.Domain.Context;
 namespace StoreCashFlow.Domain.Migrations
 {
     [DbContext(typeof(StoreCashFlowDbContext))]
-    [Migration("20241029172036_InitialCreater")]
-    partial class InitialCreater
+    [Migration("20241030102036_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,8 +96,7 @@ namespace StoreCashFlow.Domain.Migrations
 
                     b.HasKey("Barcode");
 
-                    b.HasIndex("product_type")
-                        .IsUnique();
+                    b.HasIndex("product_type");
 
                     b.ToTable("products");
                 });
@@ -221,8 +220,8 @@ namespace StoreCashFlow.Domain.Migrations
             modelBuilder.Entity("StoreCashFlow.Domain.Entity.Product", b =>
                 {
                     b.HasOne("StoreCashFlow.Domain.Entity.ProductType", "ProductType")
-                        .WithOne()
-                        .HasForeignKey("StoreCashFlow.Domain.Entity.Product", "product_type")
+                        .WithMany()
+                        .HasForeignKey("product_type")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

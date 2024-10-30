@@ -27,8 +27,8 @@ public class StoreCashFlowDbContext(DbContextOptions<StoreCashFlowDbContext> opt
             .HasKey(p => p.Barcode);
         modelBuilder.Entity<Product>()
             .HasOne(p => p.ProductType)
-                .WithOne()
-                .HasForeignKey<Product>("product_type")
+                .WithMany()
+                .HasForeignKey("product_type")
                 .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<ProductAvailability>()
             .HasOne(p => p.Product)
