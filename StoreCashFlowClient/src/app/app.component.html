@@ -1,0 +1,56 @@
+<div class="flex min-h-screen shadow-2xl">
+  <nav class="flex flex-col bg-grey px-4 gap-2 font-semibold text-slate-600 shadow-xl">
+    <div class="text-2xl text-center text-blue font-bold py-4">Копеечка</div>
+    <div class="flex flex-col gap-4 text-white text-base items-start">
+      <a
+        class="relative hover:bg-blue px-12 py-3 rounded-lg w-full group"
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <span class="absolute rounded-r-lg shadow-2xl -left-4 top-0 h-full w-2 bg-transparent group-hover:bg-blue transition-all"></span>
+        Главная
+      </a>
+      <a
+        class="relative hover:bg-blue px-12 py-3 rounded-lg w-full group"
+        routerLink="/stores"
+        routerLinkActive="active">
+        <span class="absolute rounded-r-lg shadow-2xl -left-4 top-0 h-full w-2 bg-transparent group-hover:bg-blue transition-all"></span>
+        Магазины
+      </a>
+      <a
+        class="relative hover:bg-blue px-12 py-3 rounded-lg w-full group"
+        routerLink="/products"
+        routerLinkActive="active">
+        <span class="absolute rounded-r-lg shadow-2xl -left-4 top-0 h-full w-2 bg-transparent group-hover:bg-blue transition-all"></span>
+        Продукты
+      </a>
+      <a
+        class="relative hover:bg-blue px-12 py-3 rounded-lg w-full group"
+        routerLink="/customers"
+        routerLinkActive="active">
+        <span class="absolute rounded-r-lg shadow-2xl -left-4 top-0 h-full w-2 bg-transparent group-hover:bg-blue transition-all"></span>
+        Покупатели
+      </a>
+      <a
+        class="relative hover:bg-blue px-12 py-3 rounded-lg w-full group whitespace-nowrap"
+        routerLink="/product-availability"
+        routerLinkActive="active">
+        <span class="absolute rounded-r-lg shadow-2xl -left-4 top-0 h-full w-2 bg-transparent group-hover:bg-blue transition-all"></span>
+        Наличие продуктов
+      </a>
+      <a
+        class="relative hover:bg-blue px-12 py-3 rounded-lg w-full group whitespace-nowrap"
+        routerLink="/sales"
+        routerLinkActive="active">
+        <span class="absolute rounded-r-lg shadow-2xl -left-4 top-0 h-full w-2 bg-transparent group-hover:bg-blue transition-all"></span>
+        Продажи
+      </a>
+    </div>
+  </nav>
+  <div class="w-full flex flex-col min-h-screen">
+    <div class="h-16 bg-grey"></div>
+    <div class="bg-dark flex-1 px-7 border-border border-2">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

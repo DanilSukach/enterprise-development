@@ -1,0 +1,42 @@
+<table class="min-w-full  my-7 bg-grey text-white rounded-2xl overflow-hidden border-2 border-border">
+  <thead>
+  <tr class="bg-table">
+    <th class="px-4 py-2  rounded-tl-2xl">№</th>
+    <th class="px-4 py-2  ">Номер карты</th>
+    <th class="px-4 py-2  ">Имя</th>
+    <th class="px-4 py-2 ">Фамилия</th>
+    <th class="px-4 py-2 ">Отчество</th>
+    <th class=""></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let customer of customers; let i = index">
+    <td class="px-4 py-2 border-2 border-border text-center">{{ i + 1 }}</td>
+    <td class="border-2 border-border">
+      <input class="w-full h-full px-2 py-1 bg-grey text-center" [(ngModel)]="customer.cardNumber"
+             [readonly]="!editingStates[customer.customerId]"/>
+    </td>
+    <td class="border-2 border-border">
+      <input class="w-full h-full px-2 py-1 bg-grey text-center" [(ngModel)]="customer.firstName"
+             [readonly]="!editingStates[customer.customerId]"/>
+    </td>
+    <td class="border-2 border-border">
+      <input class="w-full h-full px-2 py-1 bg-grey text-center" [(ngModel)]="customer.lastName"
+             [readonly]="!editingStates[customer.customerId]"/>
+    </td>
+    <td class="border-2 border-border">
+      <input class="w-full h-full px-2 py-1 bg-grey text-center" [(ngModel)]="customer.patronymic"
+             [readonly]="!editingStates[customer.customerId]"/>
+    </td>
+    <td class="border-2 border-border px-4 py-2 bg-grey">
+      <app-action-buttons
+        [itemId]="customer.customerId"
+        (delete)="deleteCustomer($event)"
+        (save)="saveCustomer(customer)"
+        (edit)="startEdit(customer.customerId)"
+        (cancel)="cancelEdit(customer.customerId)">
+      </app-action-buttons>
+    </td>
+  </tr>
+  </tbody>
+</table>

@@ -1,0 +1,46 @@
+<table class="min-w-full  my-7 bg-grey text-white rounded-2xl overflow-hidden border-2 border-border">
+  <thead>
+  <tr class="bg-table">
+    <th class="px-4 py-2  rounded-tl-2xl">№</th>
+    <th class="px-4 py-2  ">Штрих код</th>
+    <th class="px-4 py-2  ">Код группы</th>
+    <th class="px-4 py-2 ">Название</th>
+    <th class="px-4 py-2 ">Вес</th>
+    <th class="px-4 py-2 ">Тип продукта</th>
+    <th class="px-4 py-2 ">Стоимость</th>
+    <th class="px-4 py-2 ">Срок годности</th>
+    <th class=""></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let product of products; let i = index">
+    <td class="px-4 py-2 border-2 border-border text-center">{{i + 1}}</td>
+    <td class="border-2 border-border text-center">
+      {{ product.barcode }}
+    </td>
+    <td class="border-2 border-border text-center">
+      {{ product.productGroupCode }}
+    </td>
+    <td class="border-2 border-border text-center">
+      {{ product.name }}
+    </td>
+    <td class="border-2 border-border text-center">
+      {{ product.weight }} г
+    </td>
+    <td class="border-2 border-border text-center">
+      {{ product.productType.name }}
+    </td>
+    <td class="border-2 border-border text-center">
+      {{ product.price }} &#8381;
+    </td>
+    <td class="border-2 border-border text-center">
+      {{ product.expirationDate }}
+    </td>
+    <td class="border-2 border-border px-4 py-2 bg-grey">
+      <button (click)="deleteSale(product.barcode)">
+        <img src="/delete.png" alt="delete">
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>

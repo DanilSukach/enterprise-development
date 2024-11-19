@@ -1,0 +1,47 @@
+<button
+  (click)="openForm()"
+  class="bg-grey border-border border-2 text-base font-semibold text-white px-6 py-4 rounded-2xl hover:bg-blue-600 hover:shadow-2xl transition-all duration-300">
+  Добавить покупателя
+</button>
+<div *ngIf="isFormOpen" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md text-dark font-semibold">
+    <h2 class="text-2xl mb-4">Добавить покупателя</h2>
+    <form [formGroup]="customerForm" >
+      <div class="mb-4">
+        <label class="block text-gray-700">Номер карты</label>
+        <input type="text" formControlName="cardNumber" class="w-full p-2 border border-gray-300 rounded mt-1" />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700">Имя</label>
+        <input type="text" formControlName="firstName" class="w-full p-2 border border-gray-300 rounded mt-1" />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700">Фамилия</label>
+        <input type="text" formControlName="lastName" class="w-full p-2 border border-gray-300 rounded mt-1" />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700">Отчество</label>
+        <input type="text" formControlName="patronymic" class="w-full p-2 border border-gray-300 rounded mt-1" />
+      </div>
+
+      <div class="flex justify-between">
+        <button
+          type="submit"
+          [disabled]="customerForm.invalid"
+          (click)="onSubmit()"
+          class="bg-grey text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50">
+          Добавить
+        </button>
+        <button
+          (click)="closeForm()"
+          class="bg-red text-white px-4 py-2 rounded hover:bg-red-600">
+          Отменить
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

@@ -1,0 +1,15 @@
+<div class="flex gap-2">
+  <button *ngIf="!isEditing" (click)="startEdit()">
+    <img src="/edit.png" alt="edit">
+  </button>
+  <button *ngIf="isEditing" (click)="cancelEdit()">
+    <img src="/cancel.png" alt="cancel">
+  </button>
+  <button (click)="delete.emit(itemId)">
+    <img src="/delete.png" alt="delete">
+  </button>
+  <button *ngIf="isEditing" (click)="saveEdit()">
+    <img src="/save.png" alt="save">
+  </button>
+</div>
+

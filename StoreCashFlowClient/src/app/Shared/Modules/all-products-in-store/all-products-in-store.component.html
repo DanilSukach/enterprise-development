@@ -1,0 +1,60 @@
+<div class="text-2xl font-semibold text-white">Информация о товарах в выбранном магазине</div>
+<div class="py-4">
+  <button
+    (click)="fetchProductsForStore()"
+    class="mr-4 bg-grey border-border border-2 text-base font-semibold text-white px-6 py-4 rounded-2xl hover:bg-blue-600 hover:shadow-2xl transition-all duration-300">
+    Показать товары
+  </button>
+
+  <select
+    id="storeSelect"
+    [(ngModel)]="selectedStoreId"
+    class="border p-4 rounded-2xl mb-4">
+    <option [value]="undefined" disabled selected>Выберите магазин</option>
+    <option *ngFor="let store of stores" [value]="store.storeId">{{ store.location }}</option>
+  </select>
+</div>
+<div *ngIf="products.length > 0" class="mt-6">
+  <table class="min-w-full  my-7 bg-grey text-white rounded-2xl overflow-hidden border-2 border-border">
+    <thead>
+    <tr class="bg-table">
+      <th class="px-4 py-2  rounded-tl-2xl">№</th>
+      <th class="px-4 py-2  ">Штрих код</th>
+      <th class="px-4 py-2  ">Код группы</th>
+      <th class="px-4 py-2 ">Название</th>
+      <th class="px-4 py-2 ">Вес</th>
+      <th class="px-4 py-2 ">Тип продукта</th>
+      <th class="px-4 py-2 ">Стоимость</th>
+      <th class="px-4 py-2 ">Срок годности</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of products; let i = index">
+      <td class="px-4 py-2 border-2 border-border text-center">{{ i + 1 }}</td>
+      <td class="border-2 border-border text-center">
+        {{ product.barcode }}
+      </td>
+      <td class="border-2 border-border text-center">
+        {{ product.productGroupCode }}
+      </td>
+      <td class="border-2 border-border text-center">
+        {{ product.name }}
+      </td>
+      <td class="border-2 border-border text-center">
+        {{ product.weight }} г
+      </td>
+      <td class="border-2 border-border text-center">
+        {{ product.productType.name }}
+      </td>
+      <td class="border-2 border-border text-center">
+        {{ product.price }} &#8381;
+      </td>
+      <td class="border-2 border-border text-center">
+        {{ product.expirationDate }}
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+

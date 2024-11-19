@@ -1,0 +1,30 @@
+<table class="min-w-full  my-7 bg-grey text-white rounded-2xl overflow-hidden border-2 border-border">
+  <thead>
+  <tr class="bg-table">
+    <th class="px-4 py-2  rounded-tl-2xl">№</th>
+    <th class="px-4 py-2  ">Продукт</th>
+    <th class="px-4 py-2  ">Магазин</th>
+    <th class="px-4 py-2 ">Количество</th>
+    <th class=""></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let product of productsAvailability; let i = index">
+    <td class="px-4 py-2 border-2 border-border text-center">{{i + 1}}</td>
+    <td class="border-2 border-border text-center">
+      {{ product.product.name }}
+    </td>
+    <td class="border-2 border-border text-center">
+      {{ product.store.location }}
+    </td>
+    <td class="border-2 border-border text-center">
+      {{ product.quantity }}
+    </td>
+    <td class="border-2 border-border px-4 py-2 bg-grey">
+      <button (click)="deleteCustomer(product.id!)">
+        <img src="/delete.png" alt="delete">
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>

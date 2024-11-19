@@ -1,0 +1,2040 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "StoreCashFlow.Api",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Customer": {
+      "get": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Получить всех покупателей",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Customer"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Customer"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Customer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Добавить нового покупателя",
+        "requestBody": {
+          "description": "Новый покупатель",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerCreateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerCreateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerCreateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Обновить данные покупателя",
+        "requestBody": {
+          "description": "Данные для изменения",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Данные успешно обновлены"
+          },
+          "404": {
+            "description": "Данные с указанным идентификатором не найдены"
+          }
+        }
+      }
+    },
+    "/api/Customer/{id}": {
+      "get": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Получить покупателя по идентификатору",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор покупателя",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Покупатель",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Покупатель не найден"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Удалить покупателя",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор покупателя",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные успешно обновлены"
+          },
+          "404": {
+            "description": "Данные с указанным идентификатором не найдены"
+          }
+        }
+      }
+    },
+    "/api/Product": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Получить все товары",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Добавить товар",
+        "requestBody": {
+          "description": "Новый товар",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductCreateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductCreateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductCreateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Товар",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Данные с указанным идентификатором не найдены или товар уже существует"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Изменить товар",
+        "requestBody": {
+          "description": "Данные для изменения",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Данные успешно обновлены"
+          },
+          "404": {
+            "description": "Данные с указанным идентификатором не найдены"
+          }
+        }
+      }
+    },
+    "/api/Product/{barcode}": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Получить товар по идентификатору",
+        "parameters": [
+          {
+            "name": "barcode",
+            "in": "path",
+            "description": "Идентификатор товара",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Товар",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Товар не найден"
+          }
+        }
+      }
+    },
+    "/api/Product/{id}": {
+      "delete": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Удалить товар",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор товара",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные успешно удалены"
+          },
+          "404": {
+            "description": "Данные с указанным идентификатором не найдены"
+          }
+        }
+      }
+    },
+    "/api/ProductAvailability": {
+      "get": {
+        "tags": [
+          "ProductAvailability"
+        ],
+        "summary": "Получить все доступные товары",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductAvailability"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductAvailability"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductAvailability"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ProductAvailability"
+        ],
+        "summary": "Добавить доступность товара",
+        "requestBody": {
+          "description": "Данные для добавления",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductAvailabilityCreateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductAvailabilityCreateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductAvailabilityCreateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Данные успешно обновлены",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAvailability"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAvailability"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAvailability"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Данные с указанным идентификатором не найдены"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ProductAvailability"
+        ],
+        "summary": "Изменить доступность товара",
+        "requestBody": {
+          "description": "Данные для изменения",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductAvailabilityDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductAvailabilityDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductAvailabilityDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Данные успешно обновлены"
+          },
+          "404": {
+            "description": "Данные с указанным идентификатором не найдены"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProductAvailability"
+        ],
+        "summary": "Удалить доступность товара",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Идентификатор доступности товара",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные успешно удалены"
+          },
+          "404": {
+            "description": "Данные с указанным идентификатором не найдены"
+          }
+        }
+      }
+    },
+    "/api/ProductAvailability/{id}": {
+      "get": {
+        "tags": [
+          "ProductAvailability"
+        ],
+        "summary": "Получить доступность товара по идентификатору",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор доступности товара",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Доступность товара",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAvailability"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAvailability"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAvailability"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Доступность товара не найдена"
+          }
+        }
+      }
+    },
+    "/api/ProductType": {
+      "get": {
+        "tags": [
+          "ProductType"
+        ],
+        "summary": "Получить все типы товаров",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductType"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductType"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductType"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ProductType"
+        ],
+        "summary": "Добавить тип товара",
+        "requestBody": {
+          "description": "Данные для добавления",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductTypeCreateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductTypeCreateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductTypeCreateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductType"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductType"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductType"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ProductType"
+        ],
+        "summary": "Изменить тип товара",
+        "requestBody": {
+          "description": "Данные для изменения",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductTypeDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductTypeDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductTypeDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Данные успешно обновлены"
+          },
+          "404": {
+            "description": "Данные с указанным идентификатором не найдены"
+          }
+        }
+      }
+    },
+    "/api/ProductType/{id}": {
+      "get": {
+        "tags": [
+          "ProductType"
+        ],
+        "summary": "Получить тип товара по идентификатору",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор типа товара",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Тип товара",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductType"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductType"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductType"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Тип товара не найден"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProductType"
+        ],
+        "summary": "Удалить тип товара",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор типа товара",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные успешно удалены"
+          },
+          "404": {
+            "description": "Данные с указанным идентификатором не найдены"
+          }
+        }
+      }
+    },
+    "/api/Request/return-all-products-in-store": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Выводит сведения о всех товарах в заданном магазине",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Request/return-stores-with-product-in-stoke": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Для заданного товара выводит список магазинов, в котором он находится в наличии",
+        "parameters": [
+          {
+            "name": "barcode",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Store"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Store"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Store"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Request/return-average-price-by-group-and-store": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Выводит информацию о средней стоимости товаров каждой товарной группы для каждого магазина",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductPriceInfoDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductPriceInfoDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductPriceInfoDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Request/return-top-5-sales-by-total-amount": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Выводит топ 5 покупок по общей сумме продажи",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SaleInfoDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SaleInfoDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SaleInfoDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Request/return-expired-products": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Выводит все сведения о товарах, превышающих предельную дату хранения, с указанием магазина",
+        "parameters": [
+          {
+            "name": "expirationDate",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpiredProductInfoDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpiredProductInfoDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpiredProductInfoDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Request/get-stores-with-high-sales": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Выводит список магазинов, в которых за месяц было продано товаров на сумму, превышающую заданную",
+        "parameters": [
+          {
+            "name": "monfStart",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "monfEnd",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "treshold",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HighSalesDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HighSalesDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HighSalesDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Sale": {
+      "get": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "Получить все продажи",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sale"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sale"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sale"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "Добавить продажу",
+        "requestBody": {
+          "description": "Данные для добавления",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaleCreateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaleCreateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaleCreateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Продажа",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sale"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sale"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sale"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Данные с указанным идентификатором не найдены"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "Изменить продажу",
+        "requestBody": {
+          "description": "Данные для изменения",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaleDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaleDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaleDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Данные успешно обновлены"
+          },
+          "404": {
+            "description": "Данные с указанным идентификатором не найдены"
+          }
+        }
+      }
+    },
+    "/api/Sale/{id}": {
+      "get": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "Получить продажу по идентификатору",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор продажи",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Продажа",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sale"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sale"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sale"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Продажа не найдена"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "Удалить продажу",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор продажи",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные успешно удалены"
+          },
+          "404": {
+            "description": "Данные с указанным идентификатором не найдены"
+          }
+        }
+      }
+    },
+    "/api/Store": {
+      "get": {
+        "tags": [
+          "Store"
+        ],
+        "summary": "Получить все магазины",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Store"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Store"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Store"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Store"
+        ],
+        "summary": "Добавить магазин",
+        "requestBody": {
+          "description": "Данные для добавления",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreCreateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreCreateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreCreateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Store"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Store"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Store"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Store"
+        ],
+        "summary": "Изменить магазин",
+        "requestBody": {
+          "description": "Данные для изменения",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Данные успешно обновлены"
+          },
+          "404": {
+            "description": "Данные с указанным идентификатором не найдены"
+          }
+        }
+      }
+    },
+    "/api/Store/{id}": {
+      "get": {
+        "tags": [
+          "Store"
+        ],
+        "summary": "Получить магазин по идентификатору",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор магазина",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Магазин",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Store"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Store"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Store"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Магазин не найден"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Store"
+        ],
+        "summary": "Удалить магазин",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор магазина",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Магазин успешно удален"
+          },
+          "404": {
+            "description": "Магазин не найден"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Customer": {
+        "required": [
+          "cardNumber",
+          "firstName",
+          "lastName",
+          "patronymic"
+        ],
+        "type": "object",
+        "properties": {
+          "customerId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cardNumber": {
+            "maxLength": 16,
+            "minLength": 1,
+            "type": "string"
+          },
+          "lastName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "firstName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "patronymic": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerCreateDTO": {
+        "type": "object",
+        "properties": {
+          "cardNumber": {
+            "type": "string",
+            "description": "Номер карты",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Фамилия",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "description": "Имя",
+            "nullable": true
+          },
+          "patronymic": {
+            "type": "string",
+            "description": "Отчество",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для создания клиента"
+      },
+      "CustomerDTO": {
+        "type": "object",
+        "properties": {
+          "customerId": {
+            "type": "integer",
+            "description": "Идентификатор покупателя",
+            "format": "int32"
+          },
+          "cardNumber": {
+            "type": "string",
+            "description": "Номер карты",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Фамилия",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "description": "Имя",
+            "nullable": true
+          },
+          "patronymic": {
+            "type": "string",
+            "description": "Отчество",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для клиента"
+      },
+      "ExpiredProductInfoDto": {
+        "type": "object",
+        "properties": {
+          "product": {
+            "$ref": "#/components/schemas/Product"
+          },
+          "store": {
+            "$ref": "#/components/schemas/Store"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для информации о просроченном товаре"
+      },
+      "HighSalesDto": {
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "integer",
+            "description": "Идентификатор магазина",
+            "format": "int32"
+          },
+          "totalSales": {
+            "type": "number",
+            "description": "Указанная сумма продаж",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для высоких продаж"
+      },
+      "Product": {
+        "required": [
+          "barcode",
+          "expirationDate",
+          "name",
+          "price",
+          "productGroupCode",
+          "productType",
+          "weight"
+        ],
+        "type": "object",
+        "properties": {
+          "barcode": {
+            "maxLength": 13,
+            "minLength": 1,
+            "type": "string"
+          },
+          "productGroupCode": {
+            "maxLength": 10,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "weight": {
+            "type": "number",
+            "format": "double"
+          },
+          "productType": {
+            "$ref": "#/components/schemas/ProductType"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "expirationDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductAvailability": {
+        "required": [
+          "product",
+          "quantity",
+          "store"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "store": {
+            "$ref": "#/components/schemas/Store"
+          },
+          "product": {
+            "$ref": "#/components/schemas/Product"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductAvailabilityCreateDTO": {
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "integer",
+            "description": "Магазин",
+            "format": "int32"
+          },
+          "productId": {
+            "type": "string",
+            "description": "Товар",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Количество",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для создания информации о наличии товара"
+      },
+      "ProductAvailabilityDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Идентификатор наличия товара",
+            "format": "int32"
+          },
+          "storeId": {
+            "type": "integer",
+            "description": "Магазин",
+            "format": "int32"
+          },
+          "productId": {
+            "type": "string",
+            "description": "Товар",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Количество",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для наличия товара"
+      },
+      "ProductCreateDTO": {
+        "type": "object",
+        "properties": {
+          "barcode": {
+            "type": "string",
+            "description": "Штрих-код",
+            "nullable": true
+          },
+          "productGroupCode": {
+            "type": "string",
+            "description": "Код товарной группы",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Наименование",
+            "nullable": true
+          },
+          "weight": {
+            "type": "number",
+            "description": "Вес упаковки",
+            "format": "double"
+          },
+          "productTypeId": {
+            "type": "integer",
+            "description": "Тип (штучный, развесной)",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number",
+            "description": "Стоимость",
+            "format": "double"
+          },
+          "expirationDate": {
+            "type": "string",
+            "description": "Предельную дату хранения",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для создания товара"
+      },
+      "ProductDTO": {
+        "type": "object",
+        "properties": {
+          "barcode": {
+            "type": "string",
+            "description": "Штрих-код",
+            "nullable": true
+          },
+          "productGroupCode": {
+            "type": "string",
+            "description": "Код товарной группы",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Наименование",
+            "nullable": true
+          },
+          "weight": {
+            "type": "number",
+            "description": "Вес упаковки",
+            "format": "double"
+          },
+          "productTypeId": {
+            "type": "integer",
+            "description": "Тип (штучный, развесной)",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number",
+            "description": "Стоимость",
+            "format": "double"
+          },
+          "expirationDate": {
+            "type": "string",
+            "description": "Предельную дату хранения",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для товара"
+      },
+      "ProductPriceInfoDto": {
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "integer",
+            "description": "Идентификатор магазина",
+            "format": "int32"
+          },
+          "productGroupCode": {
+            "type": "string",
+            "description": "Товарная группа",
+            "nullable": true
+          },
+          "avgPrice": {
+            "type": "number",
+            "description": "Средняя цена",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для информации о средней стоимости товарной группы в магазине"
+      },
+      "ProductType": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductTypeCreateDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Тип товара",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для создания типа товара"
+      },
+      "ProductTypeDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Идентификатор типа товара",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Тип товара",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для типа товара"
+      },
+      "Sale": {
+        "required": [
+          "customer",
+          "product",
+          "quantity",
+          "saleDate",
+          "store"
+        ],
+        "type": "object",
+        "properties": {
+          "saleId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "store": {
+            "$ref": "#/components/schemas/Store"
+          },
+          "product": {
+            "$ref": "#/components/schemas/Product"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "saleDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SaleCreateDTO": {
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "integer",
+            "description": "Магазин",
+            "format": "int32"
+          },
+          "productId": {
+            "type": "string",
+            "description": "Продукт",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Количество",
+            "format": "double"
+          },
+          "saleDate": {
+            "type": "string",
+            "description": "Дата продажи",
+            "format": "date-time"
+          },
+          "customerId": {
+            "type": "integer",
+            "description": "Покупатель",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для создания продажи"
+      },
+      "SaleDTO": {
+        "type": "object",
+        "properties": {
+          "saleId": {
+            "type": "integer",
+            "description": "Идентификатор покупки",
+            "format": "int32"
+          },
+          "storeId": {
+            "type": "integer",
+            "description": "Магазин",
+            "format": "int32"
+          },
+          "productId": {
+            "type": "string",
+            "description": "Продукт",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Количество",
+            "format": "double"
+          },
+          "saleDate": {
+            "type": "string",
+            "description": "Дата продажи",
+            "format": "date-time"
+          },
+          "customerId": {
+            "type": "integer",
+            "description": "Покупатель",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для продажи"
+      },
+      "SaleInfoDto": {
+        "type": "object",
+        "properties": {
+          "productName": {
+            "type": "string",
+            "description": "Название продукта",
+            "nullable": true
+          },
+          "totalAmount": {
+            "type": "number",
+            "description": "Общая сумма продаж",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для информации о продажах"
+      },
+      "Store": {
+        "required": [
+          "location"
+        ],
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "location": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoreCreateDTO": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string",
+            "description": "Местоположение магазина",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для создания магазина"
+      },
+      "StoreDTO": {
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "integer",
+            "description": "Идентификатор магазина",
+            "format": "int32"
+          },
+          "location": {
+            "type": "string",
+            "description": "Местоположение магазина",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO для магазина"
+      }
+    }
+  }
+}
