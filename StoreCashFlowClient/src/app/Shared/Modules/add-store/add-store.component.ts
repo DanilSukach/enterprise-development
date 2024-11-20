@@ -6,10 +6,10 @@ import {StoreService} from '../../../api';
 @Component({
   selector: 'app-add-store',
   standalone: true,
-    imports: [
-        NgIf,
-        ReactiveFormsModule
-    ],
+  imports: [
+    NgIf,
+    ReactiveFormsModule
+  ],
   templateUrl: './add-store.component.html',
   styleUrl: './add-store.component.css'
 })
@@ -35,8 +35,8 @@ export class AddStoreComponent {
 
   onSubmit(): void {
     if (this.storeForm.valid) {
-      const newCustomer = this.storeForm.value;
-      this.storeService.apiStorePost(newCustomer).subscribe({
+      const newStore = this.storeForm.value;
+      this.storeService.apiStorePost(newStore).subscribe({
         next: () => {
           this.storeAdded.emit();
           this.closeForm();
