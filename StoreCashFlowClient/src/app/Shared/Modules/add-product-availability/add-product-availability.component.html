@@ -1,0 +1,50 @@
+<button
+  (click)="openForm()"
+  class="bg-grey border-border border-2 text-base font-semibold text-white px-6 py-4 rounded-2xl hover:bg-blue-600 hover:shadow-2xl transition-all duration-300">
+  Добавить товар в наличии
+</button>
+<div *ngIf="isFormOpen "
+     class="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md text-dark font-semibold">
+    <h2 class="text-2xl mb-4">Добавить товар в наличии</h2>
+    <form [formGroup]="productAvailabilityForm">
+      <div class="mb-4 flex gap-4">
+        <label class="block text-gray-700">Продукт</label>
+        <select formControlName="productId">
+          <option *ngFor="let product of products" [ngValue]="product.barcode">{{ product.name }}</option>
+        </select>
+      </div>
+
+      <div class="mb-4 flex gap-4">
+        <label class="block text-gray-700">Магазин</label>
+        <select formControlName="storeId">
+          <option *ngFor="let store of stores" [ngValue]="store.storeId">{{ store.location }}</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700">Количество</label>
+        <input
+          type="text"
+          formControlName="quantity"
+          [ngClass]="{ 'invalid-input': quantityControl?.hasError('invalidNumber') }"
+          class="w-full p-2 border border-gray-300 rounded mt-1"/>
+      </div>
+
+      <div class="flex justify-between">
+        <button
+          type="submit"
+          [disabled]="productAvailabilityForm.invalid"
+          (click)="onSubmit()"
+          class="bg-grey text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50">
+          Добавить
+        </button>
+        <button
+          (click)="closeForm()"
+          class="bg-red text-white px-4 py-2 rounded hover:bg-red-600">
+          Отменить
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

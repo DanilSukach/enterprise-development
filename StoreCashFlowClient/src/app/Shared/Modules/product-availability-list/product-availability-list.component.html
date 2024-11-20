@@ -9,21 +9,38 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let product of productsAvailability; let i = index">
-    <td class="px-4 py-2 border-2 border-border text-center">{{i + 1}}</td>
+  <tr *ngFor="let productAvailability of productsAvailabilities; let i = index">
+    <td class="px-4 py-2 border-2 border-border text-center">{{ i + 1 }}</td>
     <td class="border-2 border-border text-center">
-      {{ product.product.name }}
+      <ng-container *ngIf="editingStates[productAvailability.id!]">
+        <select [(ngModel)]="productAvailability.product.barcode" class="w-full h-full px-2 py-1 bg-grey text-center">
+          <option *ngFor="let product of products" [value]="product.barcode">{{ product.name }}</option>
+        </select>
+      </ng-container>
+      <ng-container *ngIf="!editingStates[productAvailability.id!]">{{ productAvailability.product.name }}
+      </ng-container>
     </td>
     <td class="border-2 border-border text-center">
-      {{ product.store.location }}
+      <ng-container *ngIf="editingStates[productAvailability.id!]">
+        <select [(ngModel)]="productAvailability.store.storeId" class="w-full h-full px-2 py-1 bg-grey text-center">
+          <option *ngFor="let store of stores" [value]="store.storeId">{{ store.location }}</option>
+        </select>
+      </ng-container>
+      <ng-container *ngIf="!editingStates[productAvailability.id!]">{{ productAvailability.store.location }}
+      </ng-container>
     </td>
-    <td class="border-2 border-border text-center">
-      {{ product.quantity }}
+    <td class="border-2 border-border">
+      <input class="w-full h-full px-2 py-1 bg-grey text-center" [(ngModel)]="productAvailability.quantity"
+             [readonly]="!editingStates[productAvailability.id!]"/>
     </td>
     <td class="border-2 border-border px-4 py-2 bg-grey">
-      <button (click)="deleteCustomer(product.id!)">
-        <img src="/delete.png" alt="delete">
-      </button>
+      <app-action-buttons
+        [itemId]="productAvailability.id!"
+        (delete)="deleteProduct($event!)"
+        (save)="saveProduct(productAvailability!)"
+        (edit)="startEdit(productAvailability.id!)"
+        (cancel)="cancelEdit(productAvailability.id!)">
+      </app-action-buttons>
     </td>
   </tr>
   </tbody>

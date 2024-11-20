@@ -1,0 +1,43 @@
+<div class="text-2xl font-semibold text-white">Cписок магазинов, в которых было продано товаров на сумму, превышающую
+  заданную
+</div>
+<div class="py-4 flex gap-4">
+  <button
+    (click)="fetchStores()"
+    class="mr-4 bg-grey border-border border-2 text-base font-semibold text-white px-6 py-4 rounded-2xl hover:bg-blue-600 hover:shadow-2xl transition-all duration-300">
+    Показать магазины
+  </button>
+  <div class="mb-4">
+    <label class="block text-white">Дата начальная</label>
+    <input type="datetime-local" [(ngModel)]="data1"
+           class="p-2 border border-gray-300 rounded mt-1"/>
+  </div>
+  <div class="mb-4">
+    <label class="block text-white">Дата начальная</label>
+    <input type="datetime-local" [(ngModel)]="data2"
+           class="p-2 border border-gray-300 rounded mt-1"/>
+  </div>
+  <div class="mb-4">
+    <label class="block text-white">Сумма</label>
+    <input type="text" [(ngModel)]="money"
+           class="p-2 border border-gray-300 rounded mt-1"/>
+  </div>
+</div>
+<div *ngIf="storeRequest.length > 0" class="mt-6">
+  <table class="min-w-full  my-7 bg-grey text-white rounded-2xl overflow-hidden border-2 border-border">
+    <thead>
+    <tr class="bg-table">
+      <th class="px-4 py-2  rounded-tl-2xl">№</th>
+      <th class="px-4 py-2 ">Местоположение магазина</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let store of storeRequest; let i = index">
+      <td class="px-4 py-2 border-2 border-border text-center">{{ i + 1 }}</td>
+      <td class="border-2 border-border text-center">
+        {{ store.location }}
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

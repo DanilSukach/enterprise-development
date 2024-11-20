@@ -4,11 +4,15 @@ import {
   StoresWithProductInStokeComponent
 } from "../../Shared/Modules/stores-with-product-in-stoke/stores-with-product-in-stoke.component";
 import {AveragePriceComponent} from "../../Shared/Modules/average-price/average-price.component";
+import {ExpiredProductsComponent} from "../../Shared/Modules/expired-products/expired-products.component";
+import {
+  StoresWithHighSalesComponent
+} from "../../Shared/Modules/stores-with-high-sales/stores-with-high-sales.component";
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [AllProductsInStoreComponent, StoresWithProductInStokeComponent, AveragePriceComponent],
+  imports: [AllProductsInStoreComponent, StoresWithProductInStokeComponent, AveragePriceComponent, ExpiredProductsComponent, StoresWithHighSalesComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })

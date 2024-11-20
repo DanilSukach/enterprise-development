@@ -14,32 +14,52 @@
   </thead>
   <tbody>
   <tr *ngFor="let product of products; let i = index">
-    <td class="px-4 py-2 border-2 border-border text-center">{{i + 1}}</td>
+    <td class="px-4 py-2 border-2 border-border text-center">{{ i + 1 }}</td>
     <td class="border-2 border-border text-center">
       {{ product.barcode }}
     </td>
-    <td class="border-2 border-border text-center">
-      {{ product.productGroupCode }}
+    <td class="border-2 border-border">
+      <input class="w-full h-full px-2 py-1 bg-grey text-center" [(ngModel)]="product.productGroupCode"
+             [readonly]="!editingStates[product.barcode]"/>
+    </td>
+    <td class="border-2 border-border">
+      <input class="w-full h-full px-2 py-1 bg-grey text-center" [(ngModel)]="product.name"
+             [readonly]="!editingStates[product.barcode]"/>
+    </td>
+    <td class="border-2 border-border">
+      <input class="w-full h-full px-2 py-1 bg-grey text-center" [(ngModel)]="product.weight"
+             [readonly]="!editingStates[product.barcode]"/>
     </td>
     <td class="border-2 border-border text-center">
-      {{ product.name }}
+      <ng-container *ngIf="editingStates[product.barcode]">
+        <select [(ngModel)]="product.productType.id" class="w-full h-full px-2 py-1 bg-grey text-center">
+          <option *ngFor="let type of productTypes" [value]="type.id">{{ type.name }}</option>
+        </select>
+      </ng-container>
+      <ng-container *ngIf="!editingStates[product.barcode]">{{ product.productType.name }}</ng-container>
+    </td>
+    <td class="border-2 border-border">
+      <input class="w-full h-full px-2 py-1 bg-grey text-center" [(ngModel)]="product.price"
+             [readonly]="!editingStates[product.barcode]"/>
     </td>
     <td class="border-2 border-border text-center">
-      {{ product.weight }} г
-    </td>
-    <td class="border-2 border-border text-center">
-      {{ product.productType.name }}
-    </td>
-    <td class="border-2 border-border text-center">
-      {{ product.price }} &#8381;
-    </td>
-    <td class="border-2 border-border text-center">
-      {{ product.expirationDate }}
+      <ng-container *ngIf="editingStates[product.barcode]">
+        <input type="datetime-local"
+               class="w-full h-full px-2 py-1 bg-grey text-center"
+               [(ngModel)]="product.expirationDate"/>
+      </ng-container>
+      <ng-container *ngIf="!editingStates[product.barcode]">
+        {{ product.expirationDate }}
+      </ng-container>
     </td>
     <td class="border-2 border-border px-4 py-2 bg-grey">
-      <button (click)="deleteSale(product.barcode)">
-        <img src="/delete.png" alt="delete">
-      </button>
+      <app-action-buttons
+        [itemId]="product.barcode"
+        (delete)="deleteCustomer($event)"
+        (save)="saveStore(product)"
+        (edit)="startEdit(product.barcode)"
+        (cancel)="cancelEdit(product.barcode)">
+      </app-action-buttons>
     </td>
   </tr>
   </tbody>

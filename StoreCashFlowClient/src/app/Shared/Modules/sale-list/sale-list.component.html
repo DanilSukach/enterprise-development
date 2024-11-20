@@ -12,26 +12,53 @@
   </thead>
   <tbody>
   <tr *ngFor="let sale of sales; let i = index">
-    <td class="px-4 py-2 border-2 border-border text-center">{{i + 1}}</td>
+    <td class="px-4 py-2 border-2 border-border text-center">{{ i + 1 }}</td>
     <td class="border-2 border-border text-center">
-      {{ sale.product.name }}
+      <ng-container *ngIf="editingStates[sale.saleId!]">
+        <select [(ngModel)]="sale.product.barcode" class="w-full h-full px-2 py-1 bg-grey text-center">
+          <option *ngFor="let product of products" [value]="product.barcode">{{ product.name }}</option>
+        </select>
+      </ng-container>
+      <ng-container *ngIf="!editingStates[sale.saleId!]">{{ sale.product.name }}</ng-container>
     </td>
     <td class="border-2 border-border text-center">
-      {{ sale.store.location }}
+      <ng-container *ngIf="editingStates[sale.saleId!]">
+        <select [(ngModel)]="sale.store.storeId" class="w-full h-full px-2 py-1 bg-grey text-center">
+          <option *ngFor="let store of stores" [value]="store.storeId">{{ store.location }}</option>
+        </select>
+      </ng-container>
+      <ng-container *ngIf="!editingStates[sale.saleId!]">{{ sale.store.location }}</ng-container>
     </td>
     <td class="border-2 border-border text-center">
-      {{ sale.quantity }}
+      <input class="w-full h-full px-2 py-1 bg-grey text-center" [(ngModel)]="sale.quantity"
+             [readonly]="!editingStates[sale.saleId!]"/>
     </td>
     <td class="border-2 border-border text-center">
-      {{sale.saleDate }} г
+      <ng-container *ngIf="editingStates[sale.saleId!]">
+        <input type="datetime-local"
+               class="w-full h-full px-2 py-1 bg-grey text-center"
+               [(ngModel)]="sale.saleDate"/>
+      </ng-container>
+      <ng-container *ngIf="!editingStates[sale.saleId!]">
+        {{ sale.saleDate }}
+      </ng-container>
     </td>
     <td class="border-2 border-border text-center">
-      {{ sale.customer.lastName }}
+      <ng-container *ngIf="editingStates[sale.saleId!]">
+        <select [(ngModel)]="sale.customer.customerId" class="w-full h-full px-2 py-1 bg-grey text-center">
+          <option *ngFor="let customer of customers" [value]="customer.customerId">{{ customer.lastName }}</option>
+        </select>
+      </ng-container>
+      <ng-container *ngIf="!editingStates[sale.saleId!]">{{ sale.customer.lastName }}</ng-container>
     </td>
     <td class="border-2 border-border px-4 py-2 bg-grey">
-      <button (click)="deleteSale(sale.saleId!)">
-        <img src="/delete.png" alt="delete">
-      </button>
+      <app-action-buttons
+        [itemId]="sale.saleId"
+        (delete)="deleteSale($event!)"
+        (save)="saveSale(sale)"
+        (edit)="startEdit(sale.saleId!)"
+        (cancel)="cancelEdit(sale.saleId!)">
+      </app-action-buttons>
     </td>
   </tr>
   </tbody>
